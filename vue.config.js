@@ -1,7 +1,7 @@
 const path = require("path");
 module.exports = {
   //基本路径
-  publicPath: process.env.NODE_ENV === 'production'? "./" : '/', //默认的'/'是绝对路径，如果不确定在根路径，改成相对路径'./'
+  publicPath: process.env.NODE_ENV === 'production' ? "/" : '/', //默认的'/'是绝对路径，如果不确定在根路径，改成相对路径'./'
   //   // 输出文件目录
   //   outputDir: "dist",
   //   assetsDir: "assets",
@@ -37,7 +37,7 @@ module.exports = {
         },
       },
     }, // 设置代理
-    before: (app) => {},
+    before: (app) => { },
   },
   // 第三方插件配置
   pluginOptions: {

@@ -11,11 +11,15 @@ import './plugins/mavonEdit/hljs'
 import 'mavon-editor/dist/markdown/github-markdown.min.css'
 import 'highlight.js/styles/googlecode.css'
 import hljs from 'highlight.js'
-hljs.highlightCode = function () { 
-	//自定义highlightCode方法，将只执行一次的逻辑去掉
-	let blocks = document.querySelectorAll('pre code');
-	[].forEach.call(blocks, hljs.highlightBlock);
+hljs.highlightCode = function () {
+  //自定义highlightCode方法，将只执行一次的逻辑去掉
+  let blocks = document.querySelectorAll('pre code');
+  [].forEach.call(blocks, hljs.highlightBlock);
 };
+
+// // 动画
+// import animated from 'animate.css'
+// Vue.use(animated)
 
 // 时间转换
 import { timeFormat } from "@/utils/timeFormat";

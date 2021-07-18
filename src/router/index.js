@@ -9,14 +9,18 @@ const routes = [
     path: "/",
     redirect: '/login'
   },
+  {
+    path: "/login",
+    name: 'login',
+    component: () => import('@/views/login/login.vue')
+  },
   ...managerRouters,
   ...usersRouters
-  
+
 ]
 
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
   routes
 })
 
