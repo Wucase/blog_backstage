@@ -1,15 +1,15 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-
-Vue.use(Vuex)
+import Vue from "vue";
+import Vuex from "vuex";
+import persistedState from "vuex-persistedstate";
+import user from "./modules/user";
+import artical from "./modules/artical";
+Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
+  plugins: [persistedState({ storage: window.sessionStorage })],
+
   modules: {
-  }
-})
+    user,
+    artical,
+  },
+});

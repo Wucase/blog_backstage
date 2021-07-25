@@ -20,7 +20,7 @@ hljs.highlightCode = function () {
 // // 动画
 // import animated from 'animate.css'
 // Vue.use(animated)
-
+Vue.prototype.$getCaptcha = process.env.NODE_ENV === 'production'?'http://1.14.157.140:3030/api/captcha':"http://127.0.0.1:3030/api/captcha";
 // 时间转换
 import { timeFormat } from "@/utils/timeFormat";
 Vue.prototype.$timeFormat = timeFormat;
