@@ -4,13 +4,19 @@
 import axios from "axios";
 // import { Message } from "element-ui";
 axios.defaults.timeout = 6000; // 请求超时时间
+// axios.withCredentials = true;
 axios.defaults.withCredentials = true;
+// axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
+// axios.defaults.crossDomain = true;
+// axios.defaults.withCredentials = true;  //设置cross跨域 并设置访问权限 允许跨域携带cookie信息
+// axios.defaults.headers.common['Authorization'] = ''; // 设置请求头为 Authorization
+
 /** 区分打包环境与开发环境
  * process.env.NODE_ENV==='production'  (打包环境)
  * process.env.NODE_ENV==='development' (开发环境)
  */
 
-axios.defaults.baseURL = process.env.NODE_ENV === 'production'?'http://1.14.157.140:3030/api':"http://127.0.0.1:3030/api";
+axios.defaults.baseURL = process.env.NODE_ENV === 'production' ? 'http://1.14.157.140:3030/api' : "http://127.0.0.1:3030/api";
 // axios.defaults.baseURL = process.env.NODE_ENV === 'production'?'http://1.14.157.140:3030/api':"http://1.14.157.140:3030/api";
 axios.defaults.headers.post["Content-Type"] =
   "application/x-www-form-urlencoded;charset=UTF-8"; // post请求头的设置
