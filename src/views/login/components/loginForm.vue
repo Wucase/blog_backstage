@@ -2,7 +2,9 @@
   <el-dialog title="用户登录"
     :visible.sync="dialogVisible"
     width="350px"
-    :before-close="handleClose">
+    :destroy-on-close="true"
+    :before-close="handleClose"
+    :close-on-click-modal="false">
 
     <div class="title-show">
       <span
@@ -81,12 +83,15 @@
       class="dialog-footer">
       <el-button
         @click="handleClose"
-        size="small">取 消
+        size="small"
+        class='cancel'>取 消
+
       </el-button>
       <el-button
         type="primary"
         @click="submitForm"
-        size="small">确 定
+        size="small"
+        class="submit">登 陆
       </el-button>
     </span>
   </el-dialog>
@@ -126,11 +131,7 @@ export default {
   methods: {
     ...mapActions(["setUserAction", "setTokenAction", "setUserIdAction"]),
     getCaptcha() {
-      getCaptcha().then((res) => {
-        console.log(res);
-        // this.$refs.captcha.src = res;
-        this.$refs.captcha.src = this.$getCaptcha;
-      });
+      this.$refs.captcha.src = this.$getCaptcha + "/?id=" + Math.random();
     },
     submitForm() {
       this.$refs.loginForm.validate(async (valid) => {
@@ -147,9 +148,10 @@ export default {
             this.setUserIdAction(userInfo[0].userId);
             this.setTokenAction(res.meta.token);
             window.sessionStorage.setItem("Token", res.meta.token);
+            console.log("?/////");
             window.sessionStorage.setItem("userName", userInfo[0].username);
             this.$notify.success(res.meta.msg);
-            this.$router.push("/blog/myblog");
+            this.$router.push("/manager");
           } else if (res.meta.status === 201) {
             this.$message.error(res.meta.msg);
             this.registerStyle = true;
@@ -178,7 +180,7 @@ export default {
 div /deep/ .el-dialog {
   border-radius: 10px !important;
   background-color: rgba(0, 10, 10, 0.6) !important;
-  height: 330px !important;
+  height: 350px !important;
   color: #fff !important;
   box-sizing: border-box;
   padding: 0 20px;
@@ -220,5 +222,15 @@ div /deep/ .el-dialog {
 .captchaImg {
   margin-top: 6px;
   margin-left: 10px;
+  height: 32px;
+
+  border-radius: 5px;
+}
+.dialog-footer {
+  .cancel {
+  }
+  .submit {
+    width: 190px;
+  }
 }
 </style>

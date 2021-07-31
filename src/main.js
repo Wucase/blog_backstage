@@ -25,10 +25,15 @@ Vue.prototype.$getCaptcha = process.env.NODE_ENV === 'production'?'http://1.14.1
 import { timeFormat } from "@/utils/timeFormat";
 Vue.prototype.$timeFormat = timeFormat;
 
+import Loading from '@/components/loading'
+
+Vue.component('Loading', Loading)
+
 // element-ui
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
+
 
 new Vue({
   router,

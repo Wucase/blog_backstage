@@ -149,7 +149,7 @@ export default {
         this.listLoading = false;
         console.log(res);
         if (res.meta.status === 200) {
-          this.tableData = res.data;
+          this.tableData = res.data.docs;
         }
       });
     },

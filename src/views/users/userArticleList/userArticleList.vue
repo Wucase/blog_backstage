@@ -26,17 +26,39 @@
         </div>
       </div>
     </div>
-    <div
-      class="article-list-item">
-      <div class="list"
-        v-for="(item, index) in articleList"
-        :key="index"
-        @click="toArticleDetail(item.articleId)">
-        <article-list-item
-          :articleData='item'>
-        </article-list-item>
-      </div>
+    <div v-if="listLoading">
+      <Loading></Loading>
     </div>
+    <div
+      class="article-list-item"
+      v-if="!listLoading">
+
+      <div>
+        <div class="list"
+          v-for="(item, index) in articleList"
+          :key="index"
+          @click="toArticleDetail(item.articleId)">
+          <article-list-item
+            :articleData='item'>
+          </article-list-item>
+        </div>
+      </div>
+      <div
+        class="article-list-page">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="pageNum"
+          :page-sizes="[10, 20, 30, 50]"
+          :page-size="pageSize"
+          background
+          layout=" prev, pager, next, jumper,sizes,total"
+          :total="total">
+        </el-pagination>
+      </div>
+
+    </div>
+
   </div>
 </template>
 
@@ -50,20 +72,37 @@ export default {
   data() {
     return {
       articleList: [],
+      listLoading: false,
+      pageSize: 10,
+      pageNum: 1,
+      total: 0,
     };
   },
   mounted() {},
   created() {
-    this.getArticleLists();
+    this.handleSizeChange();
   },
   methods: {
+    handleSizeChange(size) {
+      this.pageSize = size;
+      this.pageNum = 1;
+      this.getArticleLists();
+    },
+    handleCurrentChange(page) {
+      this.pageNum = page;
+      this.getArticleLists();
+    },
     getArticleLists() {
+      let params = {
+        pageSize: this.pageSize,
+        pageNum: this.pageNum,
+      };
       this.listLoading = true;
-      getArticleList().then((res) => {
+      getArticleList(params).then((res) => {
         this.listLoading = false;
-        console.log(res);
         if (res.meta.status === 200) {
-          this.articleList = res.data;
+          this.articleList = res.data.docs;
+          this.total = res.data.total;
         }
       });
     },
@@ -115,6 +154,8 @@ export default {
   }
   .article-list-item {
     //
+    .loadingBox {
+    }
     .list {
       padding: 0 15px;
       cursor: pointer;
@@ -123,5 +164,10 @@ export default {
       }
     }
   }
+}
+.article-list-page {
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px 0;
 }
 </style>

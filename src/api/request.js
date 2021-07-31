@@ -1,8 +1,8 @@
 // import store from "@/store/index";
 // import { MessageBox } from "element-ui";
-// import router from "@/router";
+import router from "@/router";
 import axios from "axios";
-// import { Message } from "element-ui";
+import { Message } from "element-ui";
 axios.defaults.timeout = 6000; // 请求超时时间
 // axios.withCredentials = true;
 axios.defaults.withCredentials = true;
@@ -24,14 +24,14 @@ axios.defaults.headers.post["Content-Type"] =
 
 axios.interceptors.request.use(
   (config) => {
-    // if (
-    //   config.path != "/api/login" &&
-    //   config.path != "/register" &&
-    //   window.sessionStorage.getItem("Token")
-    // ) {
-    //   config.headers.Token = window.sessionStorage.getItem("Token");
-    //   return config;
-    // }
+    if (
+      config.path != "/api/login" &&
+      config.path != "/register" &&
+      window.sessionStorage.getItem("Token")
+    ) {
+      config.headers.Token = window.sessionStorage.getItem("Token");
+      return config;
+    }
 
     return config;
   },
@@ -42,11 +42,12 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   (config) => {
-    // if (config.data.meta.status == 403) {
-    //   router.push("/login");
-    //   Message.error("登录已过期,请重新登录");
-    //   return false;
-    // }
+    console.log(config);
+    if (config.data.meta.status == 403) {
+      router.push("/login");
+      Message.error("登录已过期,请重新登录");
+      return false;
+    }
     return config;
   },
   (error) => {
