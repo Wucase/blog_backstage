@@ -1,62 +1,67 @@
 <template>
   <div class='articleDetail'>
-    <div class="detail-header">
-      <div class="title">
-        <h2>
-          {{articleInfo.articleTitle}}
-        </h2>
-      </div>
-      <div class="authorMsg">
-        <div class="msg-left">
-          <el-row>
-            <el-col :span="1">
-              <img src="@/assets/images/owner.png" alt="">
-            </el-col>
-            <el-col :span="22">
-              <span class="blog-name blog-time">零售时间</span>
-              <span class="blog-name blog-create">{{ $timeFormat(articleInfo.articleDate) }}</span>
-            </el-col>
-            <el-col :span="1">
-              <span class="blog-name show" @click="showMsg">{{showTitle}}</span>
-            </el-col>
-          </el-row>
-
-        </div>
-
-      </div>
-      <el-collapse-transition>
-        <div class="slide-box" v-show="isShow">
-          <div class="tags-box">
-            <div class="tags-item-box">
-              <span class="label">博客标签：</span>
-            </div>
-          </div>
-          <div class="article-copyright">
-            <div class="creativeCommons">
-              版权声明：本文为博主原创文章，遵循
-              <a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">
-                CC
-                4.0 BY-SA </a>
-              版权协议，转载请附上原文出处链接和本声明。
-            </div>
-            <div>
-              转载来源：
-              <a href="" target="_blank">
-                33
-              </a>
-            </div>
-            <div class="creativeCommons">
-              本文链接：
-              <a href="">1221
-              </a>
-            </div>
-          </div>
-        </div>
-      </el-collapse-transition>
+    <div class="loading" v-if="loading">
+      <Loading :posit="true"></Loading>
     </div>
-    <div class="detail-main" v-if="articleInfo.articleId">
-      <Article-show :articleContent="articleInfo.articleContent">
-      </Article-show>
+    <div class="article-detail-content" v-else>
+      <div class="detail-header">
+        <div class="title">
+          <h2>
+            {{articleInfo.articleTitle}}
+          </h2>
+        </div>
+        <div class="authorMsg">
+          <div class="msg-left">
+            <el-row>
+              <el-col :span="1">
+                <img src="@/assets/images/owner.png" alt="">
+              </el-col>
+              <el-col :span="22">
+                <span class="blog-name blog-time">零售时间</span>
+                <span class="blog-name blog-create">{{ $timeFormat(articleInfo.articleDate) }}</span>
+              </el-col>
+              <el-col :span="1">
+                <span class="blog-name show" @click="showMsg">{{showTitle}}</span>
+              </el-col>
+            </el-row>
+
+          </div>
+
+        </div>
+        <el-collapse-transition>
+          <div class="slide-box" v-show="isShow">
+            <div class="tags-box">
+              <div class="tags-item-box">
+                <span class="label">博客标签：</span>
+              </div>
+            </div>
+            <div class="article-copyright">
+              <div class="creativeCommons">
+                版权声明：本文为博主原创文章，遵循
+                <a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">
+                  CC
+                  4.0 BY-SA </a>
+                版权协议，转载请附上原文出处链接和本声明。
+              </div>
+              <div>
+                转载来源：
+                <a href="" target="_blank">
+                  33
+                </a>
+              </div>
+              <div class="creativeCommons">
+                本文链接：
+                <a href="">1221
+                </a>
+              </div>
+            </div>
+          </div>
+        </el-collapse-transition>
+      </div>
+      <div class="detail-main" v-if="articleInfo.articleId">
+        <Article-show :articleContent="articleInfo.articleContent">
+        </Article-show>
+      </div>
     </div>
   </div>
 </template>
@@ -74,6 +79,7 @@
         articleInfo: {},
         isShow: false,
         showTitle: "展开",
+        loading: true
       };
     },
     mounted() { },
@@ -87,7 +93,9 @@
         };
         console.log(">>>>>>>>", params);
         getArticleById(params).then((res) => {
+
           if (res.meta.status == 200) {
+            this.loading = false
             this.articleInfo = res.data[0];
           }
         });
@@ -103,6 +111,7 @@
 <style lang='scss' scoped>
   .articleDetail {
     padding: 15px 15px 0 15px;
+    height: 100%;
     background-color: #fff;
     margin-left: 15px !important;
     box-sizing: border-box;
@@ -198,4 +207,6 @@
     padding-top: 15px;
     box-sizing: border-box;
   }
+
+  .loading {}
 </style>
