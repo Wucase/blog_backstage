@@ -16,7 +16,7 @@ axios.defaults.withCredentials = true;
  * process.env.NODE_ENV==='development' (开发环境)
  */
 
-axios.defaults.baseURL = process.env.NODE_ENV === 'production' ? 'http://1.14.157.140:3030/api' : "http://127.0.0.1:3030/api";
+axios.defaults.baseURL = process.env.NODE_ENV === 'production' ? 'http://www.wwming.xyz:3030/api' : "http://127.0.0.1:3030/api";
 // axios.defaults.baseURL = process.env.NODE_ENV === 'production'?'http://1.14.157.140:3030/api':"http://1.14.157.140:3030/api";
 axios.defaults.headers.post["Content-Type"] =
   "application/x-www-form-urlencoded;charset=UTF-8"; // post请求头的设置

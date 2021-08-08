@@ -2,9 +2,40 @@
   <div class="home">
     <el-container>
       <el-aside width="250px">
-        Aside</el-aside>
+        <div
+          class="aside-title">
+          <img
+            src="@/assets/images/logo.png"
+            alt="">
+        </div>
+        <div
+          class="aside-menu">
+          <el-menu router
+            class="el-menu-vertical-demo"
+            background-color="#3E3E3E"
+            text-color="#fff"
+            active-text-color="#ffd04b"
+            @open="handleOpen"
+            @close="handleClose">
+
+            <el-menu-item
+              index="menuList">
+              <i
+                class="el-icon-menu"></i>
+              <span
+                slot="title">菜单管理</span>
+            </el-menu-item>
+
+          </el-menu>
+        </div>
+      </el-aside>
       <el-main>
-        <el-header>Header
+        <el-header>
+          <el-button
+            type="primary"
+            size="small"
+            @click="toUser">
+            用户页面</el-button>
         </el-header>
         <div
           class="main-article">
@@ -20,6 +51,13 @@
 export default {
   name: "Home",
   components: {},
+  methods: {
+    handleOpen() {},
+    handleClose() {},
+    toUser() {
+      this.$router.push("/users");
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -51,6 +89,21 @@ export default {
       padding-top: 0;
       box-sizing: border-box;
     }
+  }
+}
+.aside-title {
+  width: 100%;
+  height: 60px;
+  background-color: #fff;
+  img {
+    width: 200px;
+    height: 50px;
+  }
+}
+.aside-menu {
+  margin-top: 20px;
+  .el-menu {
+    border-right: 1px solid #3e3e3e;
   }
 }
 </style>

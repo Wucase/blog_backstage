@@ -118,6 +118,19 @@
         </template>
       </el-table-column>
     </el-table>
+    <div
+      class="article-list-page">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="pageNum"
+        :page-sizes="[10, 20, 30, 50]"
+        :page-size="pageSize"
+        background
+        layout=" prev, pager, next, jumper,sizes,total"
+        :total="total">
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -136,20 +149,37 @@ export default {
     return {
       listLoading: false,
       tableData: [],
+      pageSize: 10,
+      pageNum: 1,
+      total: 0,
     };
   },
   mounted() {},
   created() {
-    this.getArticleLists();
+    this.handleSizeChange();
   },
   methods: {
+    handleSizeChange(size = 10) {
+      this.pageSize = size;
+      this.pageNum = 1;
+      this.getArticleLists();
+    },
+    handleCurrentChange(page) {
+      this.pageNum = page;
+      this.getArticleLists();
+    },
     getArticleLists() {
       this.listLoading = true;
-      getArticleList().then((res) => {
+      let params = {
+        pageSize: this.pageSize,
+        pageNum: this.pageNum,
+      };
+      getArticleList(params).then((res) => {
         this.listLoading = false;
         console.log(res);
         if (res.meta.status === 200) {
           this.tableData = res.data.docs;
+          this.total = res.data.total;
         }
       });
     },
@@ -201,5 +231,10 @@ export default {
   box-sizing: border-box;
   margin: 15px;
   padding: 15px;
+}
+.article-list-page {
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px 0;
 }
 </style>

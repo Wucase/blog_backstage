@@ -40,6 +40,14 @@ const managerRouters = [{
         requireAuth: true
       },
     },
+    {
+      path: 'menuList',
+      name: 'menuList',
+      component: () => import('@/views/manager/menuList/menuList.vue'),
+      meta: {
+        requireAuth: true
+      },
+    },
   ]
 }
 ]
