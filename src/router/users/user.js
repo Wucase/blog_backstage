@@ -21,6 +21,16 @@ const  usersRouters = [{
         path: 'userDiary',
         name: 'userDiary',
         component: () => import('@/views/users/userDiary/userDiary.vue')
+      },
+      {
+        path: 'userTools',
+        name: 'userTools',
+        component: () => import('@/views/users/userTools/userTools.vue')
+      },
+      {
+        path: 'userFriendLink',
+        name: 'userFriendLink',
+        component: () => import('@/views/users/userFriendLink/userFriendLink.vue')
       }
     
 ]

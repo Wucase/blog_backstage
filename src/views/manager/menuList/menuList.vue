@@ -19,7 +19,7 @@
       </el-tab-pane>
       <el-tab-pane
         label="管理员菜单"
-        name="menu">
+        name="manager">
       </el-tab-pane>
     </el-tabs>
     <el-table
@@ -160,7 +160,7 @@
 
 <script>
 import { updateClassfityById } from "@/api/classfity";
-import { getMenuList } from "@/api/menu";
+import { getMenuList, deleteMenuById } from "@/api/menu";
 import menuEdit from "./components/menuEdit.vue";
 export default {
   name: "articleMagList",
@@ -261,13 +261,12 @@ export default {
       });
     },
     updateArticle(row) {
-      this.ruleForm.classifyName = row.classifyName;
-      this.ruleForm.description = row.description;
-      this.$refs.refTable.toggleRowExpansion(row);
+      this.detail = row;
+      this.dialogVisible = true;
     },
     deleteArticle(id) {
       console.log(id, "====");
-      deleteArticleById({ articleId: id }).then((res) => {
+      deleteMenuById({ id: id }).then((res) => {
         if (res.meta.status == 200) {
           this.$message.success("删除成功");
           this.getMenuLists();

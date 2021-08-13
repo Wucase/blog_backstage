@@ -18,6 +18,6 @@ export function updateMenuById(params) {
 
 
 //根据id删除文章
-export function deleteArticleById(params) {
-  return Request.delete("/deleteArticleById", { data: params });
+export function deleteMenuById(params) {
+  return Request.delete("/deleteMenuById", { data: params });
 }

@@ -17,6 +17,22 @@
         </el-input>
       </el-form-item>
       <el-form-item
+        label="菜单类型"
+        prop="menuType">
+        <el-radio-group
+          v-model="ruleForm.menuType"
+          size="small">
+          <el-radio-button
+            label="user">用户
+          </el-radio-button>
+          <el-radio-button
+            label="manager">
+            管理员
+          </el-radio-button>
+        </el-radio-group>
+
+      </el-form-item>
+      <el-form-item
         label="菜单Url"
         prop="menuUrl">
         <el-input
@@ -33,21 +49,19 @@
         </el-input>
       </el-form-item>
       <el-form-item
-        label="菜单类型"
-        prop="menuType">
-        <el-select
-          v-model="ruleForm.menuType"
-          placeholder="请选择"
+        label="菜单状态"
+        prop="menuStatus">
+        <el-radio-group
+          v-model="ruleForm.menuStatus"
           size="small">
-          <el-option
-            label="用户"
-            value="user">
-          </el-option>
-          <el-option
-            label="管理员"
-            value="manager">
-          </el-option>
-        </el-select>
+          <el-radio-button
+            label="1">启用
+          </el-radio-button>
+          <el-radio-button
+            label="0">禁用
+          </el-radio-button>
+        </el-radio-group>
+
       </el-form-item>
       <el-form-item
         label="菜单描述"
@@ -73,7 +87,7 @@
 </template>
 
 <script>
-import { menuCreate } from "@/api/menu";
+import { menuCreate, updateMenuById } from "@/api/menu";
 export default {
   name: "classfityEdit",
   components: {},
@@ -93,55 +107,62 @@ export default {
       title: "新建文章分类",
       ruleForm: {
         menuName: "",
-        menuType: "",
+        menuType: "user",
         menuUrl: "",
         menuIcon: "",
+        menuStatus: "1",
         description: "",
       },
       rules: {
         menuName: [
-          { required: true, message: "请输入分类名称", trigger: "blur" },
+          { required: true, message: "请输入菜单名称", trigger: "blur" },
         ],
         menuUrl: [
-          { required: true, message: "请输入分类名称", trigger: "blur" },
+          { required: true, message: "请输入菜单URL", trigger: "blur" },
         ],
         menuType: [
-          { required: true, message: "请输入分类名称", trigger: "blur" },
+          { required: true, message: "请选择菜单类型", trigger: "blur" },
         ],
         menuIcon: [
-          { required: true, message: "请输入分类名称", trigger: "blur" },
+          { required: true, message: "请输入菜单ICON", trigger: "blur" },
         ],
-        description: [
-          { required: true, message: "请输入分裂描述", trigger: "blur" },
+        menuStatus: [
+          { required: true, message: "请选择菜单状态", trigger: "blur" },
         ],
       },
     };
   },
   created() {
     this.title = this.detail.id ? "编辑文章分类" : "新建文章分类";
+    if (this.detail.id) {
+      this.ruleForm = JSON.parse(JSON.stringify(this.detail));
+    }
   },
   methods: {
-    submitForm(formName) {
+    submitForm() {
       this.$refs.ruleForm.validate((valid) => {
         if (!valid) return false;
         let params = {
           ...this.ruleForm,
         };
-        menuCreate(params).then((res) => {
-          if (res.meta.status === 200) {
-            this.$notify.success({
-              message: res.meta.msg,
-              showClose: false,
-            });
-            this.handleClose();
-            this.$emit("success");
-          } else {
-            this.$notify.error({
-              message: res.meta.msg,
-              showClose: false,
-            });
+        let api = { updateMenuById, menuCreate };
+        api[this.detail.id ? "updateMenuById" : "menuCreate"](params).then(
+          (res) => {
+            if (res.meta.status === 200) {
+              this.$notify.success({
+                message: res.meta.msg,
+                showClose: false,
+              });
+              this.handleClose();
+              this.$emit("success");
+            } else {
+              this.$notify.error({
+                message: res.meta.msg,
+                showClose: false,
+              });
+            }
           }
-        });
+        );
       });
     },
     resetForm() {

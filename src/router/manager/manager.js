@@ -5,12 +5,12 @@ const managerRouters = [{
   children: [
     {
       path: "/",
-      redirect: '/manager/articleMagList'
+      redirect: '/manager/articleList'
     },
 
     {
-      path: 'articleMagList',
-      name: 'articleMagList',
+      path: 'articleList',
+      name: 'articleList',
       component: () => import('@/views/manager/articleMagList/articleMagList.vue'),
       meta: {
         requireAuth: true

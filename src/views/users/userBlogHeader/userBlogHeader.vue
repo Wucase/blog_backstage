@@ -11,7 +11,8 @@
       <el-col :span="12"
         class="ulList">
         <ul>
-          <li>
+          <li
+            @click="toLogin">
             {{  '首页'}}
           </li>
           <li
@@ -19,7 +20,11 @@
             :key="index"
             :class="{ menuActive: index == menuActive }"
             @click="toPage(menu, index)">
-            {{ menu.label }}
+            {{ menu.menuName }}
+          </li>
+          <li
+            @click="toLogin">
+            {{  '写博客'}}
           </li>
         </ul>
       </el-col>
@@ -69,11 +74,13 @@
 </template>
 
 <script>
+import { getMenuList } from "@/api/menu";
 export default {
   name: "",
   components: {},
   data() {
     return {
+      menuList: [],
       isLogin: false,
       menuActive: 0,
       userName: "",
@@ -94,13 +101,13 @@ export default {
           path: "",
         },
       ],
-      menuList: [
-        // { label: "首页", path: "/users" },
-        { label: "博客", path: "/users/userArticleList" },
-        { label: "日记", path: "/users/userDiary" },
-        { label: "友链", path: "/users/friendlink" },
-        { label: "写Blog", path: "/manager/articleCreate" },
-      ],
+      // menuList: [
+      //   // { label: "首页", path: "/users" },
+      //   { label: "博客", path: "/users/userArticleList" },
+      //   { label: "日记", path: "/users/userDiary" },
+      //   { label: "友链", path: "/users/friendlink" },
+      //   { label: "写Blog", path: "/manager/articleCreate" },
+      // ],
     };
   },
   watch: {
@@ -111,10 +118,26 @@ export default {
     },
   },
   created() {
+    this.getMenuLists();
     // this.isLogin = window.sessionStorage.getItem("userName") ? true : false;
     this.init();
   },
   methods: {
+    getMenuLists() {
+      let params = {
+        menuType: "user",
+        pageSize: 9999,
+        pageNum: 1,
+      };
+      this.listLoading = true;
+      getMenuList(params).then((res) => {
+        this.listLoading = false;
+        console.log(res);
+        if (res.meta.status === 200) {
+          this.menuList = res.data.docs;
+        }
+      });
+    },
     // ...mapActions(["resetUserAction"]),
     menuClick(item) {
       console.log(item.label);
@@ -132,7 +155,7 @@ export default {
       }
     },
     toPage(menu, index) {
-      this.$router.push(menu.path);
+      this.$router.push(menu.menuUrl);
       this.menuActive = index;
     },
     init() {

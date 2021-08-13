@@ -14,16 +14,26 @@
             class="el-menu-vertical-demo"
             background-color="#3E3E3E"
             text-color="#fff"
+            :default-active="$route.path"
             active-text-color="#ffd04b"
             @open="handleOpen"
             @close="handleClose">
 
             <el-menu-item
-              index="menuList">
+              index="users">
               <i
                 class="el-icon-menu"></i>
               <span
-                slot="title">菜单管理</span>
+                slot="title">用户菜单</span>
+            </el-menu-item>
+            <el-menu-item
+              :index="item.menuUrl"
+              v-for="item in menuList"
+              :key="item.id">
+              <i
+                class="el-icon-menu"></i>
+              <span
+                slot="title">{{item.menuName}}</span>
             </el-menu-item>
 
           </el-menu>
@@ -48,10 +58,34 @@
 </template>
 
 <script>
+import { getMenuList } from "@/api/menu";
 export default {
   name: "Home",
   components: {},
+  data() {
+    return {
+      menuList: [],
+    };
+  },
+  created() {
+    this.getMenuLists();
+  },
   methods: {
+    getMenuLists() {
+      let params = {
+        menuType: "manager",
+        pageSize: 9999,
+        pageNum: 1,
+      };
+      this.listLoading = true;
+      getMenuList(params).then((res) => {
+        this.listLoading = false;
+        console.log(res);
+        if (res.meta.status === 200) {
+          this.menuList = res.data.docs;
+        }
+      });
+    },
     handleOpen() {},
     handleClose() {},
     toUser() {
