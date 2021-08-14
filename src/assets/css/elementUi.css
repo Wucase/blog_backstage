@@ -1,23 +1,23 @@
 div /deep/ .el-table {
   padding: 0 !important;
-  height: 30px;
-  line-height: 30px;
+  height: 40px;
+  line-height: 40px;
 }
 .el-table__body-wrapper th,
 .el-table__body-wrapper td {
   padding: 0 !important;
-  height: 30px;
-  line-height: 30px;
+  height: 40px;
+  line-height: 40px;
 }
 .el-table__header tr,
 .el-table__header th {
   padding: 0 !important;
-  height: 30px;
+  height: 40px;
 }
 .el-table__body tr,
 .el-table__body td {
   padding: 0 !important;
-  height: 30px;
+  height: 40px;
 }
 .el-table__body tr .el-divider,
 .el-table__body th .el-divider {

@@ -3,7 +3,7 @@
 import router from "@/router";
 import axios from "axios";
 import { Message } from "element-ui";
-axios.defaults.timeout = 6000; // 请求超时时间
+axios.defaults.timeout = 12000; // 请求超时时间
 // axios.withCredentials = true;
 axios.defaults.withCredentials = true;
 // axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';

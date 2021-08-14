@@ -20,7 +20,7 @@
             @close="handleClose">
 
             <el-menu-item
-              index="users">
+              @click="toUser">
               <i
                 class="el-icon-menu"></i>
               <span
@@ -41,15 +41,12 @@
       </el-aside>
       <el-main>
         <el-header>
-          <el-button
-            type="primary"
-            size="small"
-            @click="toUser">
-            用户页面</el-button>
+
         </el-header>
         <div
           class="main-article">
-          <router-view />
+          <router-view
+            @refleshMenu="refleshMenu" />
         </div>
 
       </el-main>
@@ -71,11 +68,15 @@ export default {
     this.getMenuLists();
   },
   methods: {
+    refleshMenu() {
+      this.getMenuLists();
+    },
     getMenuLists() {
       let params = {
         menuType: "manager",
         pageSize: 9999,
         pageNum: 1,
+        menuStatus: "1",
       };
       this.listLoading = true;
       getMenuList(params).then((res) => {

@@ -213,6 +213,7 @@ export default {
               showClose: false,
             });
             this.handleCurrentChange(1);
+            this.$emit("refleshMenu");
           } else {
             this.$notify.error({
               message: res.meta.msg,
@@ -270,6 +271,7 @@ export default {
         if (res.meta.status == 200) {
           this.$message.success("删除成功");
           this.getMenuLists();
+          this.$emit("refleshMenu");
         }
       });
     },
@@ -284,6 +286,7 @@ export default {
       this.dialogVisible = false;
     },
     success() {
+      this.$emit("refleshMenu");
       this.handleCurrentChange(1);
     },
   },
