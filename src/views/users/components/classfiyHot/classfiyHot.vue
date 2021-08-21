@@ -14,15 +14,16 @@
         @mouseleave="mouseOver(currentIndex)">
         <li class="liMask"
           ref="liMask"></li>
+
         <li
-          v-for="(item, index) in typeList"
+          v-for="(item, index) in classfityList"
           :key="index"
           @click="searchType(item, index)"
           @mouseenter="mouseOver(index)">
           <img
-            :src="require(`@/assets/images/${item.icon}`)"
+            :src="$imgUrl+item.classfityIcon"
             alt=""
-            v-if='item.key != "all"'
+            v-if='item.classifyName != "全部分类"'
             width="30px"
             height="30px"
             style="margin-top:5px">
@@ -31,7 +32,7 @@
             v-else
             style="font-size:30px;"></span>
           <span
-            style="margin-left:15px">{{ item.label }}
+            style="margin-left:15px">{{ item.classifyName }}
           </span>
         </li>
       </ul>
@@ -40,6 +41,7 @@
 </template>
 
 <script>
+import { getClassfityList } from "@/api/classfity";
 import { typeList } from "./data.js";
 import { animate } from "@/utils/animate.js";
 export default {
@@ -51,20 +53,36 @@ export default {
       searchValue: "",
       typeList: typeList,
       currentIndex: 0,
+      classfityList: [],
     };
   },
   created() {
     this.articalBI = true;
+    this.getArticleLists();
   },
   methods: {
+    getArticleLists() {
+      let params = {
+        pageSize: 9999,
+        pageNum: 1,
+      };
+      this.listLoading = true;
+      getClassfityList(params).then((res) => {
+        this.listLoading = false;
+        console.log(res);
+        if (res.meta.status === 200) {
+          this.classfityList = res.data.docs;
+        }
+      });
+    },
     searchBlog() {
       console.log("+++++++++++++");
       this.$eventBus.$emit("sendSearch", this.searchValue);
     },
     searchType(item, index) {
       this.currentIndex = index;
-      if (item.path) return this.$router.push(item.path);
-      this.searchValue = item.key;
+      this.$router.push('/users');
+      this.searchValue = item.classifyName;
       this.$eventBus.$emit("sendSearch", this.searchValue);
     },
     mouseOver(index) {

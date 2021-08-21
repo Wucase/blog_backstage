@@ -82,14 +82,21 @@ export default {
       pageSize: 10,
       pageNum: 1,
       total: 0,
+      filter:{}
     };
   },
   mounted() {},
   created() {
     this.handleSizeChange();
+    this.$eventBus.$on('sendSearch',(data) => {
+      console.log(">>>>>>>>>>>>>>", data)
+      this.filter.articleType = data
+      if(data == '全部分类') this.filter = {}
+      this.handleSizeChange();
+    })
   },
   methods: {
-    handleSizeChange(size) {
+    handleSizeChange(size=10) {
       this.pageSize = size;
       this.pageNum = 1;
       this.getArticleLists();
@@ -102,6 +109,7 @@ export default {
       let params = {
         pageSize: this.pageSize,
         pageNum: this.pageNum,
+        ...this.filter
       };
       this.listLoading = true;
       getArticleList(params).then((res) => {

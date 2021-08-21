@@ -6,7 +6,7 @@
         type="success" round
         size="mini"
         @click="createClassfity">
-        写博客
+        新建标签
       </el-button>
     </div>
     <el-divider></el-divider>
@@ -29,51 +29,20 @@
               label-width="100px"
               class="demo-ruleForm">
               <el-form-item
-                label="分类名称"
-                prop="classifyName">
+                label="签标名称"
+                prop="tagName">
                 <el-input
-                  v-model="ruleForm.classifyName"
+                  v-model="ruleForm.tagName"
                   size='small'>
                 </el-input>
               </el-form-item>
               <el-form-item
-                label="分类描述"
+                label="签标描述"
                 prop="description">
                 <el-input
                   v-model="ruleForm.description"
                   size='small'>
                 </el-input>
-              </el-form-item>
-              <el-form-item
-                label="分类图片"
-                prop="blogImg"
-                class="blogImg">
-                <div
-                  class="block"
-                  v-if="imgUrl">
-                  <img
-                    :src="imgUrl"
-                    alt="no"
-                    style="width: 100px;height: 100px;" />
-                </div>
-
-                <el-upload
-                  :class="{upLoadBtn:true,upBtn:imgUrl}"
-                  action
-                  multiple
-                  :show-file-list="false"
-                  :http-request="(data) => handleAvatarSuccess(data, fileList)">
-                  <el-button
-                    size="small"
-                    type="primary">
-                    点击上传
-                  </el-button>
-                  <div
-                    slot="tip"
-                    class="el-upload__tip">
-                    只能上传jpg文件，且不超过2M
-                  </div>
-                </el-upload>
               </el-form-item>
             </el-form>
             <el-button
@@ -95,20 +64,8 @@
       </el-table-column>
       <el-table-column
         :show-overflow-tooltip="true"
-        prop="classifyName"
-        label="分类名称">
-      </el-table-column>
-      <el-table-column
-        :show-overflow-tooltip="true"
-        label="分类图标">
-        <template
-          slot-scope="scope">
-          <img
-            :src="$imgUrl+scope.row.classfityIcon"
-            alt=""
-            style="width:50px; height:50px;">
-
-        </template>
+        prop="tagName"
+        label="标签名称">
       </el-table-column>
       <el-table-column
         :show-overflow-tooltip="true"
@@ -162,32 +119,23 @@
         :total="total">
       </el-pagination>
     </div>
-    <div v-if='dialogVisible'>
-      <classfity-edit
-        :dialogVisible='dialogVisible'
-        :detail="detail"
-        @cancel="cancel"
-        @success='success'>
-      </classfity-edit>
-    </div>
+    <tags-edit
+      :dialogVisible='dialogVisible'
+      @cancel="cancel"
+      @success='success'>
+    </tags-edit>
   </div>
 </template>
 
 <script>
-import { imgUpload } from "@/api/articleApi";
-import {
-  getClassfityList,
-  classfityCreate,
-  updateClassfityById,
-} from "@/api/classfity";
-import classfityEdit from "./components/classfityEdit.vue";
+import { getTagsList, deleteTagsById, updateTagsById } from "@/api/tags";
+import tagsEdit from "./components/tagsEdit.vue";
 export default {
   name: "articleMagList",
-  components: { classfityEdit },
+  components: { tagsEdit },
   props: {},
   data() {
     return {
-      fileList: [],
       listLoading: false,
       tableData: [],
       pageSize: 10,
@@ -195,13 +143,12 @@ export default {
       total: 0,
       dialogVisible: false,
       detail: {},
-      imgUrl: "",
       ruleForm: {
-        classifyName: "",
+        tagName: "",
         description: "",
       },
       rules: {
-        classifyName: [
+        tagName: [
           { required: true, message: "请输入分类名称", trigger: "blur" },
         ],
         description: [
@@ -215,20 +162,6 @@ export default {
     this.handleCurrentChange(1);
   },
   methods: {
-    handleAvatarSuccess(data) {
-      let file = data.file;
-      if (!/image/.test(file.type))
-        return this.$message.warning("请上传图片类型");
-      const form = new FormData();
-      form.append("multipartFile", file);
-      imgUpload(form).then((res) => {
-        console.log(res.meta);
-        if (res.meta.status == "200") {
-          this.imgUrl = this.$imgUrl + res.avatar_url;
-          this.ruleForm.classfityIcon = res.avatar_url;
-        }
-      });
-    },
     submitForm(formName, id) {
       this.$refs.ruleForm.validate((valid) => {
         if (!valid) return false;
@@ -236,7 +169,7 @@ export default {
           id,
           ...this.ruleForm,
         };
-        updateClassfityById(params).then((res) => {
+        updateTagsById(params).then((res) => {
           if (res.meta.status === 200) {
             this.$notify.success({
               message: res.meta.msg,
@@ -267,7 +200,7 @@ export default {
         pageNum: this.pageNum,
       };
       this.listLoading = true;
-      getClassfityList(params).then((res) => {
+      getTagsList(params).then((res) => {
         this.listLoading = false;
         console.log(res);
         if (res.meta.status === 200) {
@@ -290,13 +223,13 @@ export default {
       });
     },
     updateArticle(row) {
-      this.ruleForm.classifyName = row.classifyName;
+      this.ruleForm.tagName = row.tagName;
       this.ruleForm.description = row.description;
       this.$refs.refTable.toggleRowExpansion(row);
     },
     deleteArticle(id) {
       console.log(id, "====");
-      deleteArticleById({ articleId: id }).then((res) => {
+      deleteTagsById({ id }).then((res) => {
         if (res.meta.status == 200) {
           this.$message.success("删除成功");
           this.getArticleLists();

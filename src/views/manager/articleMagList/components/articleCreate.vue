@@ -22,6 +22,54 @@
           size="mini">
         </el-input>
       </el-form-item>
+      <el-form-item
+        label="文章分类"
+        prop="articleType">
+        <el-radio-group
+          v-model="articleForm.articleType"
+          size="mini">
+          <el-radio-button
+            v-for="item in classfityList"
+            :key="item.id"
+            :label="item.classifyName">
+          </el-radio-button>
+
+        </el-radio-group>
+      </el-form-item>
+      <!-- <el-form-item
+        label="文章类型"
+        prop="articleType">
+        <el-input
+          v-model="articleForm.articleType"
+          size="mini">
+        </el-input>
+      </el-form-item> -->
+      <el-form-item
+        label="文章标签"
+        prop="articleTip">
+        <el-tag :key="tag"
+          v-for="tag in dynamicTags"
+          closable
+          :disable-transitions="false"
+          @close="handleClose(tag)">
+          {{tag}}
+        </el-tag>
+        <el-input
+          class="input-new-tag"
+          v-if="inputVisible"
+          v-model="inputValue"
+          ref="saveTagInput"
+          size="small"
+          @keyup.enter.native="handleInputConfirm"
+          @blur="handleInputConfirm">
+        </el-input>
+        <el-button v-else
+          class="button-new-tag"
+          size="small"
+          @click="showInput">+
+          标签</el-button>
+        </el-input>
+      </el-form-item>
       <div
         class="upload-type">
         <el-form-item
@@ -73,22 +121,7 @@
             @imgAdd="imgAdd" />
         </el-form-item>
       </div>
-      <el-form-item
-        label="文章类型"
-        prop="articleType">
-        <el-input
-          v-model="articleForm.articleType"
-          size="mini">
-        </el-input>
-      </el-form-item>
-      <el-form-item
-        label="文章标签"
-        prop="articleTip">
-        <el-input
-          v-model="articleForm.articleTip"
-          size="mini">
-        </el-input>
-      </el-form-item>
+
       <el-form-item>
         <el-button
           type="primary"
@@ -110,6 +143,11 @@ import {
   getArticleById,
   updateArticleById,
 } from "@/api/articleApi";
+import {
+  getClassfityList,
+  classfityCreate,
+  updateClassfityById,
+} from "@/api/classfity";
 import { mavonEditor } from "mavon-editor";
 import "mavon-editor/dist/css/index.css";
 import { testData, toolbars } from "./data";
@@ -119,6 +157,9 @@ export default {
   props: {},
   data() {
     return {
+      dynamicTags: ["标签一", "标签二", "标签三"],
+      inputVisible: false,
+      inputValue: "",
       articleId: "",
       uploadName: "",
       fileList: [],
@@ -136,6 +177,7 @@ export default {
           { required: true, message: "请输入文章名称", trigger: "change" },
         ],
       },
+      classfityList: [],
     };
   },
   created() {
@@ -143,9 +185,40 @@ export default {
       this.articleId = this.$route.query.articleId;
       this.updataArticleInit(this.articleId);
     }
+    this.getArticleLists();
   },
   mounted() {},
   methods: {
+    handleClose(tag) {
+      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+    },
+
+    showInput() {
+      this.inputVisible = true;
+      this.$nextTick((_) => {
+        this.$refs.saveTagInput.$refs.input.focus();
+      });
+    },
+
+    handleInputConfirm() {
+      let inputValue = this.inputValue;
+      if (inputValue) {
+        this.dynamicTags.push(inputValue);
+      }
+      this.inputVisible = false;
+      this.inputValue = "";
+    },
+    getArticleLists() {
+      let params = {
+        pageSize: 9999,
+        pageNum: 1,
+      };
+      getClassfityList(params).then((res) => {
+        if (res.meta.status === 200) {
+          this.classfityList = res.data.docs;
+        }
+      });
+    },
     changeType(val) {
       console.log(">>>>>>>>", val);
       this.articleForm.uploadType = val;
@@ -225,5 +298,20 @@ export default {
     margin-top: 8px;
     margin-left: 25px;
   }
+}
+.el-tag + .el-tag {
+  margin-left: 10px;
+}
+.button-new-tag {
+  margin-left: 10px;
+  height: 32px;
+  line-height: 30px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.input-new-tag {
+  width: 90px;
+  margin-left: 10px;
+  vertical-align: bottom;
 }
 </style>

@@ -24,21 +24,21 @@
             <img src="" alt="" />
           </div>
           <div class="userName">
-            <el-dropdown trigger="click" v-if="!isLogin">
-              <el-link :underline="false" type="primary" class="el-dropdown-link" @click="toLogin">
-                {{ "登 录" }}
-              </el-link>
-            </el-dropdown>
-            <el-dropdown trigger="click" @command="menuClick" v-else>
-              <span class="el-dropdown-link">
-                {{ userName }}<i class="el-icon-arrow-down el-icon--right"></i>
-              </span>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item v-for="(item, index) in options" :key="index" :command="item">
-                  {{ item.label }}
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
+<!--            <el-dropdown trigger="click" v-if="!isLogin">-->
+<!--              <el-link :underline="false" type="primary" class="el-dropdown-link" @click="toLogin">-->
+<!--                {{ "登 录" }}-->
+<!--              </el-link>-->
+<!--            </el-dropdown>-->
+<!--            <el-dropdown trigger="click" @command="menuClick" v-else>-->
+<!--              <span class="el-dropdown-link">-->
+<!--                {{ userName }}<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
+<!--              </span>-->
+<!--              <el-dropdown-menu slot="dropdown">-->
+<!--                <el-dropdown-item v-for="(item, index) in options" :key="index" :command="item">-->
+<!--                  {{ item.label }}-->
+<!--                </el-dropdown-item>-->
+<!--              </el-dropdown-menu>-->
+<!--            </el-dropdown>-->
           </div>
         </div>
       </el-col>

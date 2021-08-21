@@ -25,10 +25,15 @@ Vue.prototype.$getCaptcha = process.env.NODE_ENV === 'production'?'http://www.ww
 import { timeFormat } from "@/utils/timeFormat";
 Vue.prototype.$timeFormat = timeFormat;
 
+// loading组件
 import Loading from '@/components/loading'
-
 Vue.component('Loading', Loading)
 
+// eventBus
+Vue.prototype.$eventBus = new Vue();
+
+// 获取图片url
+Vue.prototype.$imgUrl = process.env.NODE_ENV === 'production' ? 'http://www.wwming.xyz:3030' : "http://127.0.0.1:3030";
 // element-ui
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'

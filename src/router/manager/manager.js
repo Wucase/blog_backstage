@@ -48,6 +48,14 @@ const managerRouters = [{
         requireAuth: true
       },
     },
+     {
+      path: 'tagsList',
+      name: 'tagsList',
+      component: () => import('@/views/manager/tagsList/tagsList.vue'),
+      meta: {
+        requireAuth: true
+      },
+    },
   ]
 }
 ]
