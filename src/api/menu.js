@@ -16,6 +16,11 @@ export function updateMenuById(params) {
   return Request.put("/updateMenuById", params);
 }
 
+//根据id修改文章
+export function updateMenuStatusById(params) {
+  return Request.put("/updateMenuStatusById", params);
+}
+
 
 //根据id删除文章
 export function deleteMenuById(params) {

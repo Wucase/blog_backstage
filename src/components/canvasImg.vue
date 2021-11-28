@@ -11,14 +11,7 @@
 
     },
     props: {
-      canvasHeight: {
-        type: String,
-        default: '30px'
-      },
-      canvasWidth: {
-        type: String,
-        default: '30px'
-      },
+
       title: {
         type: String,
         default: 'Hello'
@@ -26,8 +19,6 @@
     },
     data() {
       return {
-        canvasHeight,
-        canvasWidth
       }
     },
     created() {

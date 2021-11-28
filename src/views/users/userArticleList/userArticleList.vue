@@ -32,7 +32,7 @@
             </article-list-item>
           </div>
         </div>
-        <div class="article-list-page">
+        <div class="article-list-page" v-if="total>10">
           <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageNum"
             :page-sizes="[10, 20, 30, 50]" :page-size="pageSize" background
             layout=" prev, pager, next, jumper,sizes,total" :total="total">
@@ -66,11 +66,18 @@
     mounted() { },
     created() {
       this.handleSizeChange();
-      this.$eventBus.$on('sendSearch', (data) => {
-        console.log(">>>>>>>>>>>>>>", data)
-        this.filter.articleType = data
-        this.currentClassfity = data
-        if (data == '全部分类') this.filter = {}
+      this.$eventBus.$on('sendSearch', (data, type) => {
+
+        console.log(">>>>>>>>>>>>>>", data, type)
+        this.filter = {}
+        if (type) {
+          this.filter.articleTitle = data
+        } else {
+          this.filter.articleType = data
+          this.currentClassfity = data
+          if (data == '全部分类') this.filter = {}
+        }
+
         this.handleSizeChange();
       })
     },
@@ -88,7 +95,8 @@
         let params = {
           pageSize: this.pageSize,
           pageNum: this.pageNum,
-          ...this.filter
+          ...this.filter,
+          articleStatus: 1
         };
         this.listLoading = true;
         getArticleList(params).then((res) => {

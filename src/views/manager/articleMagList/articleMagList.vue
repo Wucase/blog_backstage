@@ -44,13 +44,29 @@
       </el-table-column>
       <el-table-column :show-overflow-tooltip="true" prop="articleType" label="类型">
       </el-table-column>
-      <el-table-column :show-overflow-tooltip="true" prop="articleTip" label="标签">
+      <el-table-column :show-overflow-tooltip="true" prop="articleTip" label="标签" width="400">
+        <template slot-scope="scope">
+          <el-tag class="tip-type" v-for="(item,index) in JSON.parse(scope.row.articleTip)" :key="index"
+            :type="tipType[index]" effect="dark" size='small'>
+            {{ item}}
+          </el-tag>
+          <el-tag class="tip-type" v-if="!JSON.parse(scope.row.articleTip).length" type="danger" effect="dark"
+            size='small'>
+            {{ '暂无标签'}}
+          </el-tag>
+        </template>
       </el-table-column>
-      <el-table-column :show-overflow-tooltip="true" prop="articleShare" label="分享">
+      <el-table-column :show-overflow-tooltip="true" prop="articleShare" label="分享" width="70">
       </el-table-column>
-      <el-table-column :show-overflow-tooltip="true" prop="articleVisit" label="游客">
+      <el-table-column :show-overflow-tooltip="true" prop="articleVisit" label="游客" width="70">
       </el-table-column>
-      <el-table-column :show-overflow-tooltip="true" prop="articleStatus" label="状态">
+      <el-table-column :show-overflow-tooltip="true" prop="articleStatus" label="状态" width="120">
+        <template slot-scope="scope">
+          <el-tag class="tip-type" :type="scope.row.articleStatus == 1 ? 'success' : 'danger'" effect="dark"
+            size='small'>
+            {{scope.row.articleStatus == 1 ? '展示' : '隐藏'}}
+          </el-tag>
+        </template>
       </el-table-column>
       <el-table-column width="150" label="操作">
         <template slot-scope="scope">
@@ -85,6 +101,7 @@
     getArticleList,
     updateArticleById,
     deleteArticleById,
+    updateArticleStatusById
   } from "@/api/articleApi";
   import ArticleShow from "./components/articleShow.vue";
   import searchCmp from '@/components/searchCmp'
@@ -94,6 +111,7 @@
     props: {},
     data() {
       return {
+        tipType: ['danger', 'warning', 'success', 'parimary', 'info'],
         listLoading: false,
         tableData: [],
         pageSize: 10,
@@ -165,9 +183,9 @@
           articleStatus: status == 1 ? 0 : 1,
           articleId: id,
         };
-        updateArticleById(params).then((res) => {
+        updateArticleStatusById(params).then((res) => {
           if (res.meta.status == 200) {
-            this.$message.success(status == 1 ? "隐藏" : "展示" + "成功");
+            this.$message.success((status == 1 ? "隐藏" : "展示") + "成功");
             this.getArticleLists();
           }
         });
@@ -228,5 +246,9 @@
     display: flex;
     justify-content: space-between;
 
+  }
+
+  .tip-type {
+    margin-right: 10px !important;
   }
 </style>

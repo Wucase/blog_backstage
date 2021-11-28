@@ -21,3 +21,8 @@ export function updateTagsById(params) {
 export function deleteTagsById(params) {
   return Request.delete("/deleteTagsById", { data: params });
 }
+
+//根据id修改状态
+export function updateTagsStatusById(params) {
+  return Request.put("/updateTagsStatusById", { data: params });
+}

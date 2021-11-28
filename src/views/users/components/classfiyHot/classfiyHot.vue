@@ -10,13 +10,11 @@
     <div class="typeList">
       <ul @mouseleave="mouseOver(currentIndex)">
         <li class="liMask" ref="liMask"></li>
-
         <li v-for="(item, index) in classfityList" :key="index" @click="searchType(item, index)"
           @mouseenter="mouseOver(index)" style="classfityItem">
-          <img :src="$imgUrl+item.classfityIcon" alt="" v-if='item.classifyName != "全部分类" && item.iconImg' width="30px"
-            height="30px" style="margin-top:5px">
-          <canvas-img v-if='item.classifyName != "全部分类" && !item.iconImg' canvasHeight="30px" canvasWidth="30px"
-            :title="item.classifyName">
+          <img :src="$imgUrl+item.classfityIcon" alt="" v-if='item.classifyName != "全部分类" && item.classfityIcon'
+            width="30px" height="30px" style="margin-top:5px">
+          <canvas-img v-if='item.classifyName != "全部分类" && !item.classfityIcon' :title="item.classifyName">
           </canvas-img>
           <span class="iconfont icon-quanbu" v-if="item.classifyName == '全部分类'" style="font-size:30px;"></span>
           <span style="margin-left:15px">{{ item.classifyName }}
@@ -64,10 +62,6 @@
             this.classfityList = res.data.docs;
           }
         });
-      },
-      searchBlog() {
-        console.log("+++++++++++++");
-        this.$eventBus.$emit("sendSearch", this.searchValue);
       },
       searchType(item, index) {
         this.currentIndex = index;

@@ -5,7 +5,7 @@ export const getMenuListFun = (type) => {
       menuType: type,
       pageSize: 9999,
       pageNum: 1,
-      menuStatus: '1'
+      menuStatus: 1
     };
     getMenuList(params).then((res) => {
       if (res.meta.status === 200) {

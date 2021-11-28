@@ -36,9 +36,15 @@
       <ShiMask>
       </ShiMask>
     </div>
+
     <div v-if="loginDialogVisible">
       <login-form :dialogVisible="loginDialogVisible" @cancel="cancel">
       </login-form>
+    </div>
+    <div class='footer'>
+      Copyright © 2018-2020 beiguyan All Rights Reserved V.0.0.0 备案号: <el-link type="primary" :underline="false"
+        @click="toBan">
+        粤ICP备2021073416号-1</el-link>
     </div>
   </div>
 </template>
@@ -77,6 +83,10 @@
       cancel() {
         this.loginDialogVisible = false;
       },
+      toBan() {
+        let tempwindow = window.open('_blank');
+        tempwindow.location = 'https://beian.miit.gov.cn/';
+      }
     },
   };
 </script>
@@ -178,5 +188,16 @@
     .author {
       margin-left: 50px;
     }
+  }
+
+  .footer {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
   }
 </style>

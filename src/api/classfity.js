@@ -15,12 +15,16 @@ export function getClassfityList(params) {
 export function updateClassfityById(params) {
   return Request.put("/updateClassfityById", params);
 }
+//根据id修改文章状态
+export function updateClassfityStatusById(params) {
+  return Request.put("/updateClassfityStatusById", params);
+}
 
 //根据id获取文章
 export function getArticleById(params) {
   return Request.get("/getArticleById", params);
 }
 //根据id删除文章
-export function deleteArticleById(params) {
-  return Request.delete("/deleteArticleById", { data: params });
+export function deleteClassfityById(params) {
+  return Request.delete("/deleteClassfityById", { data: params });
 }

@@ -63,7 +63,7 @@
       <div class='article-content'>
         <el-form-item label="文章内容" prop="articleContent">
           <mavon-editor v-model="articleForm.articleContent" :toolbars="toolbars" :toolbarsBackground="'#f9f9f9'"
-            @imgAdd="imgAdd" />
+            ref='md' @imgAdd="imgAdd" />
         </el-form-item>
       </div>
 
@@ -83,6 +83,7 @@
     articleCreate,
     getArticleById,
     updateArticleById,
+    imgUpload
   } from "@/api/articleApi";
   import {
     getClassfityList,
@@ -216,7 +217,20 @@
           }
         });
       },
-      imgAdd() { },
+      imgAdd(pos, img) {
+        console.log('----------------------------', img);
+        var formdata = new FormData();
+        formdata.append('multipartFile', img);
+        imgUpload(formdata).then(res => {
+          console.log('----', res);
+          if (res.meta.status == "200") {
+            let imgUrl = this.$imgUrl + res.avatar_url
+            this.$refs.md.$imglst2Url([[pos, imgUrl]])
+          }
+        }).catch(err => {
+          console.log('err', err);
+        })
+      },
       handleAvatarSuccess(data) {
         console.log(data);
         console.log(data.file);
@@ -226,15 +240,24 @@
         if (fileType != "md") return this.$message.warning("请上传md类型文件");
         const form = new FormData();
         form.append("multipartFile", file);
-        fileUpload(form).then((res) => {
-          console.log(res.meta);
-          if (res.meta.status == "200") {
-            console.log(">>>>>>>>", res);
-            this.uploadName = res.fileName;
-            this.$message.success(res.meta.msg);
-            this.articleForm.articleContent = res.fileContent;
-          }
-        });
+        var fileReader = new FileReader();
+        fileReader.readAsText(file)
+        fileReader.onload = () => {
+          console.log("++++++", fileReader.result)
+          this.articleForm.articleContent = fileReader.result
+
+        }
+        console.log("----------", file.row);
+        return console.log(">>>>>>>>>>>>>>>", form);
+        // fileUpload(form).then((res) => {
+        //   console.log(res.meta);
+        //   if (res.meta.status == "200") {
+        //     console.log(">>>>>>>>", res);
+        //     this.uploadName = res.fileName;
+        //     this.$message.success(res.meta.msg);
+        //     this.articleForm.articleContent = res.fileContent;
+        //   }
+        // });
       },
       createArticle() {
 
@@ -249,6 +272,7 @@
                 this.createTags(res.meta.msg)
               } else {
                 this.$message.success(res.meta.msg)
+                this.$router.push("/manager/articleList")
               }
 
             }
@@ -263,6 +287,7 @@
                 this.createTags(res.meta.msg)
               } else {
                 this.$message.success(res.meta.msg)
+                this.$router.push("/manager/articleList")
               }
             }
           }).catch(err => {

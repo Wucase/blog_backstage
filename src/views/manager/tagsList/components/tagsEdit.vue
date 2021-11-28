@@ -30,21 +30,14 @@
         type: Boolean,
         required: true,
       },
-      detail: {
-        type: Object,
-        required: false,
-        default: () => { },
-      },
+
     },
     data() {
       return {
         title: "新建文章标签",
         ruleForm: {
           tagName: "",
-          menuType: "user",
-          menuUrl: "",
-          menuIcon: "",
-          menuStatus: "1",
+
           description: "",
         },
         rules: {
@@ -55,10 +48,8 @@
       };
     },
     created() {
-      this.title = this.detail.id ? "编辑文章标签" : "新建文章标签";
-      if (this.detail.id) {
-        this.ruleForm = JSON.parse(JSON.stringify(this.detail));
-      }
+      this.title = "新建文章标签";
+
     },
     methods: {
       submitForm() {

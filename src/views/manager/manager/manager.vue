@@ -11,7 +11,7 @@
 
             <el-menu-item @click="toUser">
               <i class="el-icon-menu"></i>
-              <span slot="title">用户菜单</span>
+              <span slot="title">游客页面</span>
             </el-menu-item>
             <el-menu-item :index="item.menuUrl" v-for="item in menuList" :key="item.id">
               <i class="el-icon-menu"></i>
@@ -59,7 +59,17 @@
       handleOpen() { },
       handleClose() { },
       toUser() {
-        this.$router.push("/users");
+        this.$confirm('跳转到游客页面, 是否继续?', '游客页面', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          center: true
+        }).then(() => {
+          this.$router.push("/users");
+        }).catch(() => {
+
+        });
+
       },
     },
   };

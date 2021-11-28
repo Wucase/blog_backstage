@@ -2,7 +2,8 @@
 import $ from 'jquery'
 import Vue from 'vue'
 export const addCodeBtn = () => {
-	//markdown代码存放在pre code 标签对中
+  //markdown代码存放在pre code 标签对中
+  console.log('++++++++++++++++++', $('pre code'));
   $('pre code').each(function () {
     let lines = $(this).text().split('\n').length - 1
     //添加有序列表

@@ -2,6 +2,7 @@
 // import { MessageBox } from "element-ui";
 import router from "@/router";
 import axios from "axios";
+import store from "@/store";
 import { Message } from "element-ui";
 axios.defaults.timeout = 12000; // 请求超时时间
 // axios.withCredentials = true;
@@ -46,6 +47,8 @@ axios.interceptors.response.use(
     if (config.data.meta.status == 403) {
       router.push("/login");
       Message.error("登录已过期,请重新登录");
+      store.commit('resetUser')
+      window.sessionStorage.clear()
       return false;
     }
     return config;

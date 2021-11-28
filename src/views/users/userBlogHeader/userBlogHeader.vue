@@ -24,21 +24,21 @@
             <img src="" alt="" />
           </div>
           <div class="userName">
-<!--            <el-dropdown trigger="click" v-if="!isLogin">-->
-<!--              <el-link :underline="false" type="primary" class="el-dropdown-link" @click="toLogin">-->
-<!--                {{ "登 录" }}-->
-<!--              </el-link>-->
-<!--            </el-dropdown>-->
-<!--            <el-dropdown trigger="click" @command="menuClick" v-else>-->
-<!--              <span class="el-dropdown-link">-->
-<!--                {{ userName }}<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
-<!--              </span>-->
-<!--              <el-dropdown-menu slot="dropdown">-->
-<!--                <el-dropdown-item v-for="(item, index) in options" :key="index" :command="item">-->
-<!--                  {{ item.label }}-->
-<!--                </el-dropdown-item>-->
-<!--              </el-dropdown-menu>-->
-<!--            </el-dropdown>-->
+            <!--            <el-dropdown trigger="click" v-if="!isLogin">-->
+            <!--              <el-link :underline="false" type="primary" class="el-dropdown-link" @click="toLogin">-->
+            <!--                {{ "登 录" }}-->
+            <!--              </el-link>-->
+            <!--            </el-dropdown>-->
+            <!--            <el-dropdown trigger="click" @command="menuClick" v-else>-->
+            <!--              <span class="el-dropdown-link">-->
+            <!--                {{ userName }}<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
+            <!--              </span>-->
+            <!--              <el-dropdown-menu slot="dropdown">-->
+            <!--                <el-dropdown-item v-for="(item, index) in options" :key="index" :command="item">-->
+            <!--                  {{ item.label }}-->
+            <!--                </el-dropdown-item>-->
+            <!--              </el-dropdown-menu>-->
+            <!--            </el-dropdown>-->
           </div>
         </div>
       </el-col>
@@ -97,8 +97,8 @@
     },
     methods: {
       async getMenuLists() {
-        let userMenu = JSON.parse(window.sessionStorage.getItem("userMenu"))
-        if (userMenu) return this.menuList = userMenu
+        // let userMenu = JSON.parse(window.sessionStorage.getItem("userMenu"))
+        // if (userMenu) return this.menuList = userMenu
         this.menuList = await getMenuListFun('user')
         // let params = {
         //   menuType: "user",
@@ -150,7 +150,8 @@
         this.$router.push("/");
       },
       toLogin() {
-        this.$router.push("/login");
+        this.$store.state.user.token ? this.$router.push("/manager/articleCreate") :
+          this.$router.push("/login");
       },
     },
   };
