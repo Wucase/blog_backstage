@@ -13,9 +13,23 @@ export default {
     },
     // 异步
     actions: {
-      setUserAction(context,user){
-        context.commit('setUser', user)
-      },
+        GetUserInfo({ commit, state },data) {
+            return new Promise((resolve, reject) => {
+                if (!data.userId) return reject("用户id不存在");
+                getUserInfoById({ id: data.userId })
+                    .then((res) => {
+                        // let data = res.data;
+                        // if (data.resultCode === 200) {
+                        //     const user = data.data;
+                        //     commit("set_userInfo", user);
+                        //     resolve(user);
+                        // } else {
+                        //     reject(`获取用户信息失败:` + data.resultMsg);
+                        // }
+                    })
+                    .catch((err) => reject(err));
+            });
+        },
       setTokenAction(context,token){
         context.commit('setToken', token)
       },
@@ -44,7 +58,7 @@ export default {
             state.user = {}
 
         },
-   
+
     },
     // Getters 可以用于监听、state中的值的变
     getters: {
