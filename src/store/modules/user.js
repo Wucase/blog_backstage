@@ -2,33 +2,36 @@
 // state设置变量
 // actions 异步-得到结果 - mutations 操作数据-getters监听数据变动
 // 最后返回的是监听数据变动
-
+import { getMenuList } from "@/api/menu";
 export default {
     // namespaced: true, // 是否开启命名空间
     // data 存储数据
     state: {
-        user: {},
+        userInfo: {},
         token:'',
         userId:''
+
     },
     // 异步
     actions: {
-        GetUserInfo({ commit, state },data) {
+        GetUserInfo({ commit, state },type) {
             return new Promise((resolve, reject) => {
-                if (!data.userId) return reject("用户id不存在");
-                getUserInfoById({ id: data.userId })
-                    .then((res) => {
-                        // let data = res.data;
-                        // if (data.resultCode === 200) {
-                        //     const user = data.data;
-                        //     commit("set_userInfo", user);
-                        //     resolve(user);
-                        // } else {
-                        //     reject(`获取用户信息失败:` + data.resultMsg);
-                        // }
-                    })
-                    .catch((err) => reject(err));
-            });
+                let params = {
+                    menuType: type,
+                    pageSize: 9999,
+                    pageNum: 1,
+                    menuStatus: 1
+                };
+                getMenuList(params).then((res) => {
+                    console.log(">>>>>>>>>", res.data)
+                    if (res.meta.status === 200) {
+                        commit.setUser(res.data.docs)
+                        resolve(res.data.docs);
+                    }
+                }).catch(err => {
+                    reject(err)
+                });
+            })
         },
       setTokenAction(context,token){
         context.commit('setToken', token)
@@ -42,8 +45,8 @@ export default {
     },
     //  操控 state 里面的数据的   methods
     mutations: {
-        setUser(state, user) {
-            state.user = user
+        setUser(state, userInfo) {
+            state.userInfo = userInfo
         },
         setToken(state, token) {
             state.token = token
@@ -55,15 +58,15 @@ export default {
             console.log("reset---------");
             state.userId = ''
             state.token = ''
-            state.user = {}
+            state.userInfo = {}
 
         },
 
     },
     // Getters 可以用于监听、state中的值的变
     getters: {
-        getUser: state => {
-            return state.user
+        userInfo: state => {
+            return state.userInfo
         },
         getToken: state => {
             return state.token

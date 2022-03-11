@@ -75,6 +75,7 @@
       },
       touristTo() {
         this.$router.push("/users");
+        this.$store.dispatch("GetUserInfo",'user')
       },
       touristToGit() { },
       toLogin() {

@@ -53,7 +53,6 @@
     components: {},
     data() {
       return {
-        menuList: [],
         isLogin: false,
         menuActive: 0,
         userName: "",
@@ -83,6 +82,11 @@
         // ],
       };
     },
+    computed:{
+      menuList(){
+        return this.$store.getters.userMenu
+      },
+    },
     watch: {
       $route() {
         if (this.$route.path.indexOf("writeblog") > -1)
@@ -91,9 +95,8 @@
       },
     },
     created() {
-      this.getMenuLists();
-      // this.isLogin = window.sessionStorage.getItem("userName") ? true : false;
-      this.init();
+
+
     },
     methods: {
       async getMenuLists() {
@@ -134,14 +137,7 @@
         this.$router.push(menu.menuUrl);
         this.menuActive = index;
       },
-      init() {
-        // this.userName = window.sessionStorage.getItem("userName");
-        this.menuList.forEach((item, index) => {
-          console.log(item, index);
-          if (this.$route.path.indexOf(item.path) != -1)
-            return (this.menuActive = index);
-        });
-      },
+
       loginOut() {
         this.loginOutDrawer = false;
         window.sessionStorage.clear();
