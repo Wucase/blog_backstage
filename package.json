@@ -4,6 +4,10 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
+    "local-serve-dev": "vue-cli-service serve --mode local_serve_dev",
+    "remote-serve-dev": "vue-cli-service serve --mode remote_serve_dev",
+    "local-serve-pro": "vue-cli-service build --mode local_serve_pro",
+    "remote-serve-pro": "vue-cli-service build --mode remote_serve_pro",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
