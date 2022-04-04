@@ -1,4 +1,4 @@
-import Vue from 'vue'
+// import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -35,7 +35,7 @@ Vue.directive('highlight', function (el) {
 // // 动画
 // import animated from 'animate.css'
 // Vue.use(animated)
-Vue.prototype.$getCaptcha = process.env.NODE_ENV === 'production' ? 'http://www.wwming.xyz:3030/api/captcha' : "http://127.0.0.1:3030/api/captcha";
+Vue.prototype.$getCaptcha = process.env.VUE_APP_FULL_URL+ "/api/captcha";
 
 // 时间转换
 import { timeFormat } from "@/utils/timeFormat";
@@ -49,11 +49,11 @@ Vue.component('Loading', Loading)
 Vue.prototype.$eventBus = new Vue();
 
 // 获取图片url
-Vue.prototype.$imgUrl = process.env.NODE_ENV === 'production' ? 'http://www.wwming.xyz:3030' : "http://127.0.0.1:3030";
+Vue.prototype.$imgUrl = process.env.VUE_APP_FULL_URL;
 // element-ui
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-Vue.use(ElementUI)
+// import ElementUI from 'element-ui'
+// import 'element-ui/lib/theme-chalk/index.css'
+// Vue.use(ElementUI)
 
 
 new Vue({

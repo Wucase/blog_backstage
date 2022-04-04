@@ -10,13 +10,18 @@
     <div class="typeList">
       <ul @mouseleave="mouseOver(currentIndex)">
         <li class="liMask" ref="liMask"></li>
-        <li v-for="(item, index) in classfityList" :key="index" @click="searchType(item, index)"
+        <li @click="searchType({classifyName:''}, 0)">
+          <span class="iconfont icon-quanbu"  style="font-size:30px;"></span>
+          <span style="margin-left:15px">全部
+          </span>
+        </li>
+        <li v-for="(item, index) in classfityList" :key="index+1" @click="searchType(item, index+1)"
           @mouseenter="mouseOver(index)" style="classfityItem">
           <img :src="$imgUrl+item.classfityIcon" alt="" v-if='item.classifyName != "全部分类" && item.classfityIcon'
             width="30px" height="30px" style="margin-top:5px">
           <canvas-img v-if='item.classifyName != "全部分类" && !item.classfityIcon' :title="item.classifyName">
           </canvas-img>
-          <span class="iconfont icon-quanbu" v-if="item.classifyName == '全部分类'" style="font-size:30px;"></span>
+<!--          <span class="iconfont icon-quanbu" v-if="item.classifyName == '全部分类'" style="font-size:30px;"></span>-->
           <span style="margin-left:15px">{{ item.classifyName }}
           </span>
         </li>
