@@ -37,7 +37,7 @@ export function updateArticleStatusById(params) {
 
 //统计
 export function getStatisticsCount(params) {
-  return Request.get("/getStatisticsCount", { data: params });
+  return Request.get("/getStatisticsCount", params);
 }
 //hot
 export function getArticleHots(params) {

@@ -1,9 +1,9 @@
 
 import $ from 'jquery'
 import Vue from 'vue'
+import { Notification } from 'element-ui';
 export const addCodeBtn = () => {
   //markdown代码存放在pre code 标签对中
-  console.log('++++++++++++++++++', $('pre code'));
   $('pre code').each(function () {
     let lines = $(this).text().split('\n').length - 1
     //添加有序列表
@@ -28,8 +28,8 @@ export const addCodeBtn = () => {
     document.execCommand('Copy')
     element.remove()
     //这里是自定义的消息通知组件
-    Vue.prototype.$notice.success({
-      msg: '代码复制成功'
+    Notification.success({
+      message: '代码复制成功'
     })
   })
 }

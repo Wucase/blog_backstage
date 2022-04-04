@@ -74,7 +74,38 @@
         this.menuList = await getMenuListFun('user')
       },
       touristTo() {
-        this.$router.push("/users");
+        let p1 = () => {
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              console.log('111111111');
+              resolve({ success: 1 })
+            }, 1000)
+          })
+        }
+        let p2 = () => {
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              console.log('222222');
+              resolve({ error: 1 })
+            }, 2000)
+          })
+        }
+        let p3 = () => {
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              console.log('3333333333');
+              resolve({ success: 1 })
+            }, 3000)
+          })
+        }
+
+        Promise.all([p1(), p2(), p3()]).then(res => {
+          console.log('res===', res);
+          let arr = res.map(v => v.error).filter(Boolean)
+          console.log('>>>>', arr);
+        })
+        // this.$router.push("/users");
+
       },
       touristToGit() { },
       toLogin() {

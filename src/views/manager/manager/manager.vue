@@ -52,8 +52,8 @@
         this.menuList = await getMenuListFun('manager')
       },
       async getMenuLists() {
-        let managerMenu = JSON.parse(window.sessionStorage.getItem("managerMenu"))
-        if (managerMenu) return this.menuList = managerMenu
+        // let managerMenu = JSON.parse(window.sessionStorage.getItem("managerMenu"))
+        // if (managerMenu) return this.menuList = managerMenu
         this.menuList = await getMenuListFun('manager')
       },
       handleOpen() { },

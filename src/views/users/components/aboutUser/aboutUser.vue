@@ -71,7 +71,7 @@
         this.$eventBus.$emit('sendSearch', this.searchValue, 'search')
       },
       getStatisticsCount() {
-        getStatisticsCount().then(res => {
+        getStatisticsCount({ articleStatus: 1 }).then(res => {
           console.log('res---', res);
           if (res.meta.status === 200) {
             this.countInfo = res.data

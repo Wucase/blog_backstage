@@ -66,7 +66,7 @@
       searchType(item, index) {
         this.currentIndex = index;
         this.$router.push('/users');
-        this.searchValue = item.classifyName;
+        this.searchValue = item.classifyName == '全部' ? '':item.classifyName;
         this.$eventBus.$emit("sendSearch", this.searchValue);
       },
       mouseOver(index) {

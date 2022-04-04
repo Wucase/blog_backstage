@@ -108,6 +108,7 @@
   }
 
   .user-blog-foot {
+
     width: 100%;
     height: 50px;
     background-color: rgb(64, 64, 64);

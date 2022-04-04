@@ -32,27 +32,32 @@
           <div class="slide-box" v-show="isShow">
             <div class="tags-box">
               <div class="tags-item-box">
-                <span class="label">博客标签：</span>
+                <span class="label">博客类型：<el-tag :type="tipType[0]" size="mini" >{{ articleInfo.articleType}}</el-tag></span>
+              </div>
+            </div>
+            <div class="tags-box">
+              <div class="tags-item-box">
+                <span class="label">博客标签：<el-tag :type="tipType[index]" size="mini" v-for="(item,index) in articleInfo.articleTip" :key="index">{{item}}</el-tag></span>
               </div>
             </div>
             <div class="article-copyright">
-              <div class="creativeCommons">
-                版权声明：本文为博主原创文章，遵循
-                <a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">
-                  CC
-                  4.0 BY-SA </a>
-                版权协议，转载请附上原文出处链接和本声明。
+              <div class="info-list">
+                <span>转载来源：</span>
+                <el-link type="primary" :underline="false" v-if="articleInfo.isOriginal">
+                  {{$imgUrl + $route.fullPath}}
+                </el-link>
+                <el-link type="primary" :underline="false" v-else>
+                  {{$imgUrl + $route.fullPath}}
+                </el-link>
               </div>
-              <div>
-                转载来源：
-                <a href="" target="_blank">
-                  33
-                </a>
+              <div class="creativeCommons" info-list>
+                <span>本文链接：</span>
+                <el-link type="primary" :underline="false" >
+                  {{$imgUrl + $route.fullPath}}
+                </el-link>
               </div>
               <div class="creativeCommons">
-                本文链接：
-                <a href="">1221
-                </a>
+                版权声明：本文为博主原创文章，转载请附上原文出处链接和本声明。
               </div>
             </div>
           </div>
@@ -79,7 +84,8 @@
         articleInfo: {},
         isShow: false,
         showTitle: "展开",
-        loading: true
+        loading: true,
+        tipType:["primary","info", "success","danger", "warning"],
       };
     },
     mounted() { },
@@ -97,6 +103,7 @@
           if (res.meta.status == 200) {
             this.loading = false
             this.articleInfo = res.data[0];
+            this.articleInfo.articleTip = JSON.parse(this.articleInfo.articleTip)
           }
         });
       },
@@ -178,7 +185,9 @@
       line-height: 18px;
       margin-top: 0px;
       margin-right: 8px;
-
+      .el-tag{
+        margin-right: 10px;
+      }
       .label {
         display: inline-block;
         color: #555666;
@@ -200,6 +209,23 @@
     padding: 4px 0;
     overflow: hidden;
     border-bottom: 1px solid #f5f6f7;
+    .article-copyright{
+      .info-list{
+        display: flex;
+        span{
+          width: 70px;
+        }
+        justify-content: flex-start;
+        .el-link{
+          min-width: 500px ;
+          white-space:nowrap;
+          overflow:hidden;
+          text-overflow:ellipsis;
+        }
+      }
+
+    }
+
   }
 
   .detail-main {
