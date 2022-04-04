@@ -9,6 +9,7 @@
     "local-serve-pro": "vue-cli-service build --mode local_serve_pro",
     "remote-serve-pro": "vue-cli-service build --mode remote_serve_pro",
     "build": "vue-cli-service build",
+    "report": "vue-cli-service build --report",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
