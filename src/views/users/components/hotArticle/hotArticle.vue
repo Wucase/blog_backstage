@@ -8,7 +8,7 @@
     </div>
     <el-divider></el-divider>
     <div class="typeList">
-      <ul>
+      <ul v-if="hotList.length > 0">
         <li v-for="(item, index) in hotList" :key="index">
           <div>{{index+1}}
           </div>
@@ -17,7 +17,11 @@
           </el-link>
           <span class="iconfont icon-xianxingzhifeijitubiao" style="margin-right:0;"></span>
         </li>
+
       </ul>
+      <div v-else class="no-data">
+        <img src="@/assets/images/null.jpeg" alt="">
+      </div>
     </div>
 
   </div>
@@ -152,5 +156,14 @@
 
   .search /deep/ .el-divider {
     margin: 10px 0 !important;
+  }
+
+  .no-data{
+    display: flex;
+    justify-content: center;
+    img{
+      width: 100px;
+      border-radius: 50%;
+    }
   }
 </style>

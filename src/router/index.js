@@ -7,13 +7,13 @@ import usersRouters from './users/user'
 
 const originalPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location) {
-    return originalPush.call(this, location).catch(err => err)
+  return originalPush.call(this, location).catch(err => err)
 };
 Vue.use(VueRouter)
 const routes = [
   {
     path: "/",
-    redirect: '/login'
+    redirect: '/users'
   },
   {
     path: "/login",
@@ -32,17 +32,19 @@ const router = new VueRouter({
 
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requireAuth)){
-  let token = store.state.user.token;
-  if(!token){
-    next({
-      path:'/login'
-  })
-}else{
+  if(to.path === '/login'){
+    store.commit("setLastRoute", router.currentRoute.fullPath)
+  }
+  if (to.matched.some(record => record.meta.requireAuth)) {
+    let token = store.getters.getToken;
+    if (!token) {
+
+      next('/home')
+    } else {
+      next()
+    }
+    next()
+  }
   next()
-}
-next()
-}
-next()
 })
 export default router

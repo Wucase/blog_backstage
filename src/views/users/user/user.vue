@@ -37,6 +37,7 @@
           粤ICP备2021073416号-1</el-link>
       </p>
     </div>
+    <login-form />
   </div>
 </template>
 
@@ -46,6 +47,7 @@
   import ClassfiyHot from "@/views/users/components/classfiyHot/classfiyHot.vue";
   import HotArticle from "@/views/users/components/hotArticle/hotArticle.vue";
   import FriendLink from "@/views/users/components/friendLink/friendLink.vue";
+  import LoginForm from "@/views/login/components/loginForm.vue";
   export default {
     name: "user",
     components: {
@@ -54,6 +56,7 @@
       ClassfiyHot,
       HotArticle,
       FriendLink,
+      LoginForm
     },
     props: {},
     data() {
@@ -111,7 +114,7 @@
 
     width: 100%;
     height: 50px;
-    background-color: rgb(64, 64, 64);
+    background-color: rgba(64, 64, 64, 0);
     text-align: center;
     line-height: 50px;
     color: #bbb;

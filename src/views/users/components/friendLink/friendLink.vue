@@ -53,6 +53,7 @@ export default {
   box-sizing: border-box;
   background-color: #fff;
   margin: 20px 0;
+  margin-bottom: 0px;
   h2 {
     margin-top: 0;
   }

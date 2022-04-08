@@ -13,7 +13,7 @@ const managerRouters = [{
       name: 'articleList',
       component: () => import('@/views/manager/articleMagList/articleMagList.vue'),
       meta: {
-        requireAuth: true
+        requireAuth: true, title:'blog管理'
       },
     },
     {
@@ -21,7 +21,7 @@ const managerRouters = [{
       name: 'articleDetail',
       component: () => import('@/views/manager/articleMagList/articleDetail.vue'),
       meta: {
-        requireAuth: true
+        requireAuth: true, title:'blog詳情'
       },
     },
     {
@@ -29,7 +29,7 @@ const managerRouters = [{
       name: 'articleCreate',
       component: () => import('@/views/manager/articleMagList/components/articleCreate.vue'),
       meta: {
-        requireAuth: true
+        requireAuth: true, title:'blog新建'
       },
     },
     {
@@ -37,7 +37,7 @@ const managerRouters = [{
       name: 'classfityList',
       component: () => import('@/views/manager/classfityList/classfityList.vue'),
       meta: {
-        requireAuth: true
+        requireAuth: true, title:'分类管理'
       },
     },
     {
@@ -45,7 +45,7 @@ const managerRouters = [{
       name: 'menuList',
       component: () => import('@/views/manager/menuList/menuList.vue'),
       meta: {
-        requireAuth: true
+        requireAuth: true, title:'菜单管理'
       },
     },
      {
@@ -53,7 +53,7 @@ const managerRouters = [{
       name: 'tagsList',
       component: () => import('@/views/manager/tagsList/tagsList.vue'),
       meta: {
-        requireAuth: true
+        requireAuth: true, title:'标签管理'
       },
     },
   ]

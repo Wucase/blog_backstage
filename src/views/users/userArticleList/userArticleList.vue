@@ -4,7 +4,7 @@
       <Loading :posit="true">
       </Loading>
     </div>
-    <div v-else>
+    <div v-else style="height: 100%;">
       <div class="header">
         <div class="articles-header">
           <div class="msg-left">
@@ -37,6 +37,10 @@
             :page-sizes="[10, 20, 30, 50]" :page-size="pageSize" background
             layout=" prev, pager, next, jumper,sizes,total" :total="total">
           </el-pagination>
+        </div>
+
+        <div class="no-data" v-if="total<1">
+          <img src="@/assets/images/null.jpeg" alt="">
         </div>
 
       </div>
@@ -166,6 +170,7 @@
     .article-list-item {
 
       //
+      height: 100%;
       .loadingBox {}
 
       .list {
@@ -183,5 +188,17 @@
     display: flex;
     justify-content: flex-end;
     margin: 20px 0;
+  }
+
+  .no-data{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img{
+width: 300px;
+      border-radius: 50%;
+    }
   }
 </style>

@@ -13,8 +13,12 @@
         <el-radio-group v-model="articleForm.articleType" size="mini">
           <el-radio-button v-for="item in classfityList" :key="item.id" :label="item.classifyName">
           </el-radio-button>
-
         </el-radio-group>
+        <el-input class="input-new-tag" v-if="typeVisible" v-model="newTypeValue" ref="saveTagInput" size="mini"
+                  @keyup.enter.native="addType" @blur="addType">
+        </el-input>
+        <el-button  size="mini" v-else  @click="showTypeInput" circle icon="el-icon-plus" class="add-icon">
+          </el-button>
       </el-form-item>
       <!-- <el-form-item
         label="文章类型"
@@ -29,12 +33,11 @@
           @close="handleClose(tag)" @click="selectTags(tag)" type="success" effect="dark">
           {{tag}}
         </el-tag>
-        <el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput" size="small"
+        <el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput"  size="mini"
           @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
         </el-input>
-        <el-button v-else class="button-new-tag" size="small" @click="showInput">+
+        <el-button v-else class="button-new-tag" size="mini" @click="showInput">+
           标签</el-button>
-        </el-input>
       </el-form-item>
       <div class="upload-type">
         <el-form-item label="创作方式" prop="uploadType">
@@ -102,7 +105,9 @@
       return {
         dynamicTags: [],
         inputVisible: false,
+        typeVisible: false,
         inputValue: "",
+        newTypeValue: "",
         articleId: "",
         uploadName: "",
         fileList: [],
@@ -114,7 +119,7 @@
           articleContent: testData,
           articleAuthor: "substring",
           articleTip: "substring",
-          articleType: "substring",
+          articleType: "14080ae0-ff75-11eb-8e46-675035681250",
         },
         articleRules: {
           articleTitle: [
@@ -135,6 +140,25 @@
     },
     mounted() { },
     methods: {
+      addType(){
+        let classfityList = this.classfityList
+        let types = classfityList.map(v=>v.classifyName)
+        if(types.includes(this.newTypeValue)){
+          return this.$notify.error(`已存在${this.newTypeValue}`)
+        }
+        let params = {
+          classifyName:this.newTypeValue
+        }
+        classfityCreate(params).then(res => {
+          if (res.meta.status === 200) {
+            this.getArticleLists();
+          }
+        })
+
+      },
+      showTypeInput(){
+        this.typeVisible = true
+      },
       selectTags(tag) {
         // console.log('tahg', tag);
         // if (this.selectTagsList.includes(tag)) {
@@ -193,7 +217,12 @@
         };
         getClassfityList(params).then((res) => {
           if (res.meta.status === 200) {
+            this.typeVisible = false
             this.classfityList = res.data.docs;
+            let lastClass = JSON.parse(JSON.stringify(this.classfityList)).pop()
+            console.log(">>>>>>>>>>>", this.newTypeValue, lastClass)
+            if(lastClass && this.newTypeValue && this.classfityList.length)
+              this.articleForm.articleType = lastClass.classifyName
           }
         });
       },
@@ -213,7 +242,7 @@
               this.dynamicTags = JSON.parse(this.articleForm.articleTip)
             }
           } else {
-            this.$message.error("查询文章失败");
+            this.$notify.error("查询文章失败");
           }
         });
       },
@@ -237,7 +266,7 @@
         this.uploadName = null;
         let file = data.file;
         let fileType = file.name.substring(file.name.lastIndexOf(".") + 1);
-        if (fileType != "md") return this.$message.warning("请上传md类型文件");
+        if (fileType != "md") return this.$notify.warning("请上传md类型文件");
         const form = new FormData();
         form.append("multipartFile", file);
         var fileReader = new FileReader();
@@ -247,31 +276,30 @@
           this.articleForm.articleContent = fileReader.result
 
         }
-        console.log("----------", file.row);
-        return console.log(">>>>>>>>>>>>>>>", form);
+        return
         // fileUpload(form).then((res) => {
         //   console.log(res.meta);
         //   if (res.meta.status == "200") {
         //     console.log(">>>>>>>>", res);
         //     this.uploadName = res.fileName;
-        //     this.$message.success(res.meta.msg);
+        //     this.$notify.success(res.meta.msg);
         //     this.articleForm.articleContent = res.fileContent;
         //   }
         // });
       },
       createArticle() {
-
         let params = { ...this.articleForm };
         params.userId = this.$store.state.user.userId
         params.articleTip = JSON.stringify(this.dynamicTags)
         if (this.$route.query.articleId) {
+          params.articleId = this.$route.query.articleId
           updateArticleById(params).then((res) => {
             if (res.meta.status == 200) {
               console.log('-->>>>', this.selectTagsList.length);
               if (this.selectTagsList.length) {
                 this.createTags(res.meta.msg)
               } else {
-                this.$message.success(res.meta.msg)
+                this.$notify.success(res.meta.msg)
                 this.$router.push("/manager/articleList")
               }
 
@@ -286,7 +314,7 @@
               if (this.selectTagsList.length) {
                 this.createTags(res.meta.msg)
               } else {
-                this.$message.success(res.meta.msg)
+                this.$notify.success(res.meta.msg)
                 this.$router.push("/manager/articleList")
               }
             }
@@ -309,7 +337,7 @@
         })
         tagsCreate(params).then(res => {
           if (res.meta.status == 200) {
-            this.$message.success(msg);
+            this.$notify.success(msg);
             this.$router.push("/manager/articleList")
           }
         }).catch(err => {
@@ -358,5 +386,9 @@
     width: 90px;
     margin-left: 10px;
     vertical-align: bottom;
+  }
+
+  .add-icon{
+    margin-left: 15px;
   }
 </style>

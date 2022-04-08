@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="用户登录" :visible.sync="dialogVisible" width="350px" :destroy-on-close="true"
+  <el-dialog title="用户登录" :visible.sync="$store.getters.showLogin" width="350px" :destroy-on-close="true"
     :before-close="handleClose" :close-on-click-modal="false">
 
     <div class="title-show">
@@ -23,7 +23,7 @@
       </el-form-item>
       <el-form-item prop="passWord">
         <el-input type="password" v-model="loginForm.passWord" autocomplete="off" placeholder="密码" size="small"
-          prefix-icon="el-icon-lock">
+          prefix-icon="el-icon-lock" show-password>
         </el-input>
       </el-form-item>
       <div class="captcha">
@@ -74,13 +74,12 @@
       };
     },
     watch: {
-      dialogVisible(val) {
-        console.log('------------', val);
-        if (!val) return false;
-        this.getCaptcha();
-      },
     },
-    created() { },
+    created() {
+
+    },
+    mounted(){
+    },
     methods: {
       ...mapActions(["setUserAction", "setTokenAction", "setUserIdAction"]),
       getCaptcha() {
@@ -97,16 +96,18 @@
             };
             this.btnLoading = true;
             let res = await userLogin(params);
+
             if (res.meta.status === 200) {
+              this.$store.commit("setShowLogin", false)
               this.btnLoading = false;
               let userInfo = res.data;
-              this.setUserAction(userInfo[0]);
-              this.setUserIdAction(userInfo[0].userId);
-              this.setTokenAction(res.meta.token);
-              window.sessionStorage.setItem("Token", res.meta.token);
-              window.sessionStorage.setItem("userName", userInfo[0].username);
+              console.log(">>>>>>", userInfo)
+              this.$store.commit("setUser", userInfo[0])
+              this.$store.commit("setUserName", userInfo[0].username)
+              this.$store.commit("setUserId", userInfo[0].userId)
+              this.$store.commit("setToken", res.meta.token)
               this.$notify.success(res.meta.msg);
-              this.$router.push("/manager");
+              this.$router.push(this.$store.getters.lastRoute);
             } else if (res.meta.status === 201) {
               this.btnLoading = false;
               this.$message.error(res.meta.msg);
@@ -131,7 +132,7 @@
       },
       handleClose() {
         this.getCaptcha();
-        this.$emit("cancel");
+        this.$store.commit("setShowLogin", false)
       },
     },
   };
@@ -155,7 +156,7 @@
     }
 
     .el-dialog__body {
-      padding: 15px 25px;
+      padding: 15px 25px 0 25px;
     }
 
     .el-dialog__footer {
@@ -173,7 +174,7 @@
 
     .icon-title {
       color: rgb(75, 163, 240);
-      font-size: 20px !important;
+      font-size: 30px !important;
     }
 
     // background-color: #fff;

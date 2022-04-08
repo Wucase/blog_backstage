@@ -63,7 +63,7 @@ export function scrollAnimation(currentY, targetY) {
   export function animate(obj, index, step) {
     // 1. 清除定时器
     clearInterval(obj.timer);
-    let target = index * 39;
+    let target = index * 40;
     // 2. 设置定时器
     obj.timer = setInterval(function() {
       // 2.1.0 判断方向

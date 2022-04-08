@@ -9,7 +9,10 @@ export default {
     state: {
         userInfo: {},
         token:'',
-        userId:''
+        userId:'',
+        userName:'',
+      showLogin: false,
+      lastRoute: '/',
 
     },
     // 异步
@@ -45,7 +48,16 @@ export default {
     },
     //  操控 state 里面的数据的   methods
     mutations: {
-        setUser(state, userInfo) {
+        setShowLogin(state, showLogin) {
+            state.showLogin = showLogin
+        },
+      setLastRoute(state, lastRoute) {
+            state.lastRoute = lastRoute
+        },
+      setUserName(state, userName) {
+            state.userName = userName
+        },
+      setUser(state, userInfo) {
             state.userInfo = userInfo
         },
         setToken(state, token) {
@@ -67,6 +79,15 @@ export default {
     getters: {
         userInfo: state => {
             return state.userInfo
+        },
+      lastRoute: state => {
+            return state.lastRoute
+        },
+      userName: state => {
+            return state.userName
+        },
+      showLogin: state => {
+            return state.showLogin
         },
         getToken: state => {
             return state.token

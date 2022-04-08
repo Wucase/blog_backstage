@@ -23,7 +23,11 @@
       </el-aside>
       <el-main>
         <el-header>
-
+          <el-breadcrumb separator="/">
+            <el-breadcrumb-item>{{pageType}}</el-breadcrumb-item>
+            <el-breadcrumb-item>{{pageTitle}}</el-breadcrumb-item>
+          </el-breadcrumb>
+          <user-center />
         </el-header>
         <div class="main-article">
           <router-view @refleshMenu="refleshMenu" />
@@ -31,21 +35,35 @@
 
       </el-main>
     </el-container>
+    <login-form />
+
   </div>
 </template>
 
 <script>
   import { getMenuListFun } from "@/utils/tools";
+  import LoginForm from "@/views/login/components/loginForm.vue";
+  import UserCenter from '@/views/components/userCenter'
   export default {
     name: "Home",
-    components: {},
+    components: {LoginForm,UserCenter},
     data() {
       return {
         menuList: [],
       };
     },
     created() {
+      this.$store.commit("setShowLogin", false)
+      console.log("____________", this.$route)
       this.getMenuLists();
+    },
+    computed:{
+      pageTitle(){
+        return this.$route.meta.title
+      },
+      pageType(){
+        return this.$route.fullPath.match(/manager/) ? 'blog管理' : ''
+      }
     },
     methods: {
       async refleshMenu() {
@@ -94,6 +112,10 @@
           margin-bottom: 15px;
           background-color: #fff;
           box-sizing: border-box;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0 0 0 20px;
         }
 
         .main-article {
