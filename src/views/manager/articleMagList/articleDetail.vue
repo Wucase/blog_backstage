@@ -20,9 +20,7 @@
               <span class="blog-name show" @click="showMsg">{{showTitle}}</span>
             </el-col>
           </el-row>
-
         </div>
-
       </div>
       <el-collapse-transition>
         <div class="slide-box" v-show="isShow">

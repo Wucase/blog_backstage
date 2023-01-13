@@ -1,7 +1,7 @@
 export function scrollAnimation(currentY, targetY) {
     // 获取当前位置方法
     // const currentY = document.documentElement.scrollTop || document.body.scrollTop
-  
+
     // 计算需要移动的距离
     let needScrollTop = targetY - currentY;
     let _currentY = currentY;
@@ -18,7 +18,7 @@ export function scrollAnimation(currentY, targetY) {
       }
     }, 1);
   }
-  
+
   export function scroll() {
     if (window.pageYOffset !== null) {
       return {
@@ -36,7 +36,7 @@ export function scrollAnimation(currentY, targetY) {
       left: document.body.scrollLeft,
     };
   }
-  
+
   export function client() {
     if (window.innerWidth !== null) {
       return {
@@ -64,11 +64,12 @@ export function scrollAnimation(currentY, targetY) {
     // 1. 清除定时器
     clearInterval(obj.timer);
     let target = index * 40;
+    console.log("==========___", obj.offsetTop, target)
     // 2. 设置定时器
     obj.timer = setInterval(function() {
       // 2.1.0 判断方向
       var dir = obj.offsetTop <= target ? step : -step;
-  
+
       // 2.2.1 开始动画
       obj.style.top = obj.offsetTop + dir + "px";
       if (Math.abs(obj.offsetTop - target) < step) {
