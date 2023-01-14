@@ -311,7 +311,7 @@
     }
   }
 
-  .blogImg /deep/ .el-form-item__content {
+  .blogImg ::v-deep .el-form-item__content {
     display: flex;
     justify-content: flex-start;
 
@@ -326,7 +326,7 @@
     justify-content: flex-start;
   }
 
-  .upload-img-tip /deep/ .tip-que {
+  .upload-img-tip ::v-deep .tip-que {
     line-height: 40px !important;
     margin-left: -20px !important;
   }

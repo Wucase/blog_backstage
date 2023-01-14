@@ -165,20 +165,20 @@
       }
     }
 
-    /deep/ .el-input-group__append {
+    ::v-deep .el-input-group__append {
       border: none;
       background-color: #fff;
       border-radius: 20px;
       height: 30px;
     }
 
-    /deep/ .el-input {
+    ::v-deep .el-input {
       border: 1px solid #ddd;
       border-radius: 20px;
       height: 30px;
     }
 
-    /deep/.el-input__inner {
+    ::v-deep.el-input__inner {
       border: none !important;
       height: 30px;
       border-radius: 20px;

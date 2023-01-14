@@ -72,7 +72,7 @@
     }
   }
 
-  /deep/ .el-card__header {
+  ::v-deep .el-card__header {
     padding: 10px 0;
   }
 
@@ -154,7 +154,7 @@
     }
   }
 
-  .search /deep/ .el-divider {
+  .search ::v-deep .el-divider {
     margin: 10px 0 !important;
   }
 

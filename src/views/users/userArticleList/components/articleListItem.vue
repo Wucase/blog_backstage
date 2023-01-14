@@ -69,13 +69,13 @@ export default {
   &:hover .article-title {
     color: rgba(47, 84, 235, 0.6);
   }
-  &:hover .article-title /deep/ .el-button {
+  &:hover .article-title ::v-deep .el-button {
     color: rgba(47, 84, 235, 0.6);
   }
   .article-title {
     display: flex;
     justify-content: flex-start;
-    /deep/ .el-button--mini,
+    ::v-deep .el-button--mini,
     .el-button--small {
       font-size: 14px;
       border-radius: 3px;

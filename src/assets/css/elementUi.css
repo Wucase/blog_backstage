@@ -1,4 +1,4 @@
-div /deep/ .el-table {
+div ::v-deep .el-table {
   padding: 0 !important;
   height: 40px;
   line-height: 40px;

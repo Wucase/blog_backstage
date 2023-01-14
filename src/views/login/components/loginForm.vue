@@ -139,7 +139,7 @@
 </script>
 
 <style lang='scss' scoped>
-  div /deep/ .el-dialog {
+  div ::v-deep .el-dialog {
     border-radius: 10px !important;
     background-color: rgba(0, 10, 10, 0.6) !important;
     height: 350px !important;

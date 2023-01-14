@@ -41,7 +41,7 @@
 </script>
 
 <style lang='scss' scoped>
-  div /deep/ pre.code {
+  div ::v-deep pre.code {
     position: relative !important;
     border-radius: 3px !important;
     border: 1px solid #c3ccd0 !important;

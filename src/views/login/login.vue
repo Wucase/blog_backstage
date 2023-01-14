@@ -379,11 +379,11 @@
       .captcha{
         display: flex;
         justify-content: flex-start;
-        .el-form-item /deep/ .el-input {
+        .el-form-item ::v-deep .el-input {
           width: 140px !important;
         }
       }
-      .el-form-item /deep/ .el-input .el-input__inner{
+      .el-form-item ::v-deep .el-input .el-input__inner{
         border-radius: 0;
         border: none;
         border-bottom: 1px solid rgb(75, 163, 240);

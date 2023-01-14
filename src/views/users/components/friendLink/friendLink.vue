@@ -59,7 +59,7 @@ export default {
   }
 }
 
-/deep/ .el-card__header {
+::v-deep .el-card__header {
   padding: 10px 0;
 }
 

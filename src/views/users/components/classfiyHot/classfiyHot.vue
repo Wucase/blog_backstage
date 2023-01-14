@@ -126,7 +126,7 @@
         }
 
     }
-      .type-list-item /deep/  canvas{
+      .type-list-item ::v-deep  canvas{
         border-radius: 50%;
       }
     }
