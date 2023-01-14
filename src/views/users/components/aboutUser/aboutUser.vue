@@ -5,7 +5,7 @@
         <img src="@/assets/images/myicon.jpg" alt="" style="width:50px;height:80px;">
       </div>
       <div class="aboutUser-name-info">
-        <h4>零售时间12121</h4>
+        <h4>零售时间9099</h4>
         <p>愿时间可以零售，得以找回失去的**
         </p>
       </div>
